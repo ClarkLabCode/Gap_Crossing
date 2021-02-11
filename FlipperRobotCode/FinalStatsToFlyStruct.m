@@ -1,7 +1,7 @@
 % Converts the finalStats struct into finalFlyStruct which is a fly-centric
 % structure
 
-function finalFlyStruct = FinalStatsToFlyStruct(finalStats)
+function finalFlyStruct = FinalStatsToFlyStruct(finalStats, NumCorridors)
 
 % Sort finalStats by CorridorID (needs to be done in table format first)
 finalStatsTab = struct2table(finalStats);
