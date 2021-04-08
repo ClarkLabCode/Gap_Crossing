@@ -33,9 +33,9 @@ CorrMask2 = cell(1, NumCorridors);
 % element within CorrMask1/2. Gives text output to ensure user keeps track
 % of which corridor they must label.
 for CorrCounter = 1:NumCorridors
-    fprintf(strcat('Select Corridor #',num2str(CorrCounter),'in orientation 1\n'));
+    fprintf(strcat('Select Corridor #',num2str(CorrCounter),' in orientation 1\n'));
     CorrMask1{CorrCounter} = roipoly(read(reader1,indPos(1)+5));
-    fprintf(strcat('Select Corridor #',num2str(CorrCounter),'in orientation 2\n'));
+    fprintf(strcat('Select Corridor #',num2str(CorrCounter),' in orientation 2\n'));
     CorrMask2{CorrCounter} = roipoly(read(reader1,indPos(3)+5)); 
 end
 
