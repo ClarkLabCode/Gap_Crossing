@@ -6,6 +6,7 @@
 % sizeThreshCutOff  = Min number of pixels to count as fly, ~100 is good
 % indPosFrameBuffer = How many frames before and after flip to skip, ~5 is good
 % erodePix          = How many times to run "imerode" on bg sub frames, usually 1
+% indPos            = Index of frame at which flips happen
 
 % Outputs:
 % finalStats    = Structure that holds all info from the video, each row
@@ -14,7 +15,7 @@
 % AreaVecLog    = Logical vector used to threshold AreaVec
 
 function [finalStats, AreaVec, AreaVecLog] = ...
-    RawFlyInfoExtracter(inputFileName, directoryName, sizeThreshCutOff, indPosFrameBuffer, erodePix)
+    RawFlyInfoExtracter(inputFileName, directoryName, sizeThreshCutOff, indPosFrameBuffer, erodePix, indPos)
 
 % Open a video reader and grab the important quantities from it
 reader1 = VideoReader(inputFileName);

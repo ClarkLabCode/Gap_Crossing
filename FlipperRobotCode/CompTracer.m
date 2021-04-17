@@ -45,9 +45,9 @@ tempGapMask2 = cell(1, NumGaps);
 % within tempCentCorrMask1/2. Gives text output to ensure user keeps track
 % of which corridor they must label.
 for i = 1:NumCorridors
-    fprintf(strcat('Select Center Box of Corridor #',num2str(i),'in orientation 1\n'));
+    fprintf(strcat('Select Center Box of Corridor #',num2str(i),' in orientation 1\n'));
     tempCentCorrMask1{i} = roipoly(read(reader1,indPos(1)+5));
-    fprintf(strcat('Select Center Box of Corridor #',num2str(i),'in orientation 2\n'));
+    fprintf(strcat('Select Center Box of Corridor #',num2str(i),' in orientation 2\n'));
     tempCentCorrMask2{i} = roipoly(read(reader1,indPos(3)+5)); 
 end
 
