@@ -14,7 +14,7 @@
 % central parts of the corridors, then 2*NumGaps+2 to 3*NumGaps+1 for the
 % well parts of the corridors
 
-function [CompMask1, CompMask2] = CompTracer(inputFileName, NumGaps)
+function [CompMask1, CompMask2] = CompTracer(inputFileName, NumGaps, indPos)
 
 % Declare VideoReader object
 reader1 = VideoReader(inputFileName);
