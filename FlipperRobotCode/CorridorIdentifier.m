@@ -18,7 +18,7 @@
 %                 even numbered flips
 
 function [finalStats, CorrMask1, CorrMask2] = ...
-    CorridorIdentifier(inputFileName, finalStats, NumCorridors)
+    CorridorIdentifier(inputFileName, finalStats, NumCorridors, indPos)
 
 % Declare VideoReader object
 reader1 = VideoReader(inputFileName);
