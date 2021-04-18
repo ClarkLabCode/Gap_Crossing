@@ -10,7 +10,11 @@
 
 function GapCrossingAnalysis(VidPrevProcessed)
 
-% Navigate to directory with all analysis scripts
+disp('Please make sure the workspace is empty before proceeding.');
+disp('If it is not empty, cancel the next two pop-up boxes and enter "clear" in the command window.');
+
+% Add path to directory with all analysis scripts and navigate to it
+addpath 'C:\Users\clarklab\Joe\Gap_Crossing\Matlab_Analysis_Scripts\FlipperRobotCode'
 cd 'C:\Users\clarklab\Joe\Gap_Crossing\Matlab_Analysis_Scripts\FlipperRobotCode'
 
 % Create function handles for all necessary functions so that they are
@@ -106,10 +110,10 @@ copyfile(inputFileName);
 % If video was previously processed, load in the workspace
 if VidPrevProcessed == 1
     cd ../Processed_Video_Structure
-    [procFile,procPath] = uigetfile('*.*');
+    [procFile,procPath] = uigetfile('*.*','Select Processed Workspace File');
     absProcFilePath = fullfile(procPath,procFile);
-    load(absProcFilePath,'Select Processed Workspace File');
-% Else, process the video
+    load(absProcFilePath);
+% Else, process the video and save the processed workspace
 else
 % Navigate into Background_Frames and runs video processing scripts
 % (Video processing = FindFramesForFlip.m & RawFlyInfoExtracter.m)
@@ -121,18 +125,19 @@ cd ../Background_Frames
 [finalStats, AreaVec, AreaVecLog] = ...
     RawFlyInfoExtracterHan(inputFileName,directoryName,...
     sizeThreshCutOff,indPosFrameBuffer,erodePix,indPos);
-end
 
 % Navigate to Processed_Video_Structure and save finalStats
 cd ../Processed_Video_Structure
-save([directoryName,'_finalStats.mat'],finalStats);
+save([directoryName,'_finalStats.mat'],'finalStats');
 save([directoryName,'_workspace.mat']);
+
+end
 
 % Now run the rest of the analysis
 [finalStats, CorrMask1, CorrMask2] = ...
-    CorridorIdentifierHan(inputFileName, finalStats, NumCorridors);
-[CompMask1, CompMask2] = CompTracerHan(inputFileName, NumGaps);
-finalStats = CompIdentifierHan(finalStats, CompMask1, CompMask2);
+    CorridorIdentifierHan(inputFileName, finalStats, NumCorridors, indPos);
+[CompMask1, CompMask2] = CompTracerHan(inputFileName, NumGaps, indPos);
+finalStats = CompIdentifierHan(finalStats, CompMask1, CompMask2, indPos);
 finalFlyStruct = FinalStatsToFlyStructHan(finalStats, NumCorridors);
 finalFlyStruct = FlyActivityFilterHan(finalFlyStruct);
 [finalFlyStruct, meanCrossRate, stderror, FlyCrossCountRate, FlyCrossBinomErr] = ...
@@ -144,7 +149,7 @@ finalFlyStruct = MetaDataAdderHan(finalFlyStruct, genotype, dateAcq,...
 
 % Navigate to Fly_Structure and save structure there
 cd ../Fly_Structure
-save([directoryName,'_finalFlyStruct.mat'],finalFlyStruct);
+save([directoryName,'_finalFlyStruct.mat'],'finalFlyStruct');
 save([directoryName,'_analyzed_workspace.mat']);
 
 end
