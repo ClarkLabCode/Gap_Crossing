@@ -10,8 +10,6 @@
 
 function GapCrossingAnalysis(VidPrevProcessed)
 
-clear
-
 % Navigate to directory with all analysis scripts
 cd 'C:\Users\clarklab\Joe\Gap_Crossing\Matlab_Analysis_Scripts\FlipperRobotCode'
 
