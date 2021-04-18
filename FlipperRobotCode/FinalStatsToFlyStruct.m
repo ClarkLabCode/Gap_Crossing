@@ -57,7 +57,6 @@ for CorrCounter = 1:NumCorridors
     if CorrCounter ~= NumCorridors
         UpperLim = UpperLim+numRowsPerCorr(CorrCounter+1);
     end
-    % finalFlyStruct(CorrCounter).CassetteID = finalStatsNew(Row).CassetteID;
     finalFlyStruct(CorrCounter).CorridorID = finalStatsNew(Row).CorridorID;
 end
 
