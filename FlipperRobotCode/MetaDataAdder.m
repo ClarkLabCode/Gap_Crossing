@@ -11,12 +11,13 @@
 % flipRate = 30 (in seconds);
 % expLength = 60 (in mins);
 % temp = 30 (in C);
+% CassetteID = 1;
 % directoryName = 'test';
 % sizeThreshCutOff = 100;
 % indPosFrameBuffer = 5;
 
 function finalFlyStruct = MetaDataAdder(finalFlyStruct, genotype, dateAcq,...
-    timeAcq, eclosionDate, timeZone, notes, flipRate, expLength, temp, ...
+    timeAcq, eclosionDate, timeZone, notes, flipRate, expLength, temp, CassetteID, ...
     directoryName, sizeThreshCutOff, indPosFrameBuffer)
 
 for flyStructCounter = 1:length(finalFlyStruct)
@@ -29,6 +30,7 @@ for flyStructCounter = 1:length(finalFlyStruct)
     finalFlyStruct(flyStructCounter).FlipRate = flipRate;
     finalFlyStruct(flyStructCounter).ExpLength = expLength;
     finalFlyStruct(flyStructCounter).Temperature = temp;
+    finalFlyStruct(flyStructCounter).CassetteID = CassetteID;
     finalFlyStruct(flyStructCounter).DirectoryName = directoryName;
     finalFlyStruct(flyStructCounter).SizeThreshCutOff = sizeThreshCutOff;
     finalFlyStruct(flyStructCounter).IndPosFrameBuffer = indPosFrameBuffer;
