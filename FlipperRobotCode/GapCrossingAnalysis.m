@@ -104,9 +104,9 @@ cd(directoryName);
 % Make the appropriate subfolders
 mkdir 'Background_Frames';
 mkdir 'Fly_Structure';
+mkdir 'Plots';
 mkdir 'Processed_Video_Structure';
 mkdir 'Raw_Videos';
-mkdir 'Plots';
 
 % Navigate into Raw_Videos and copy in the video file
 cd 'Raw_Videos';
