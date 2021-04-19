@@ -4,18 +4,21 @@
 % inputFileName     = Name of video file to be analyzed, must include extension
 % NumCorridors      = Number of corridors in the cassette
 % NumGaps           = Number of gaps within each corridor
+% indPos            = Index of frame at which flips happen
 
 % Outputs
 % CompMask1     = Cell array that holds the mask for each compartment for all
 %                 odd numbered flips
 % CompMask2     = Cell array that holds the mask for each compartment for all
 %                 even numbered flips
+% NumComps      = Number of compartments per corridor (either 3*NumGaps+1
+%                 or 4*NumGaps+1, see below for more info)
 
 % These use the compartment labeling scheme of 1 to 2*NumGaps+1 for the
 % central parts of the corridors, then 2*NumGaps+2 to 3*NumGaps+1 for the
 % well parts of the corridors
 
-function [CompMask1, CompMask2] = CompTracer(inputFileName, NumCorridors, NumGaps, indPos)
+function [CompMask1, CompMask2, NumComps] = CompTracer(inputFileName, NumCorridors, NumGaps, indPos)
 
 % Declare VideoReader object
 reader1 = VideoReader(inputFileName);
