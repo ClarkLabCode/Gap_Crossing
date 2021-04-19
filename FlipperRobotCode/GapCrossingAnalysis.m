@@ -9,6 +9,9 @@
 % VidPrevProcessed = 1 skips FindFramesForFlip.m & RawFlyInfoExtracter.m
 % and then requests the user provides the location of the analyzed videos
 
+% Use the below command in the command window to navigate to this script
+% cd 'C:\Users\clarklab\Joe\Gap_Crossing\Matlab_Analysis_Scripts\FlipperRobotCode'
+
 function GapCrossingAnalysis(VidPrevProcessed)
 
 disp('Please make sure the workspace is empty before proceeding.');
