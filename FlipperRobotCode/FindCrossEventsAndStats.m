@@ -10,7 +10,7 @@
 % FlyCrossCountRate = Gap crossing rate for each individual fly
 % FlyCrossBinomErr  = SEM for crossing rate for each fly (n = # of crossing events)
 
-function [finalFlyStruct, meanCrossRate, stderror, FlyCrossCountRate, FlyCrossBinomErr] = ...
+function [finalFlyStruct, meanCrossRate, stderror, FlyCrossCountRate, FlyCrossBinomErr, fig1, fig2] = ...
     FindCrossEventsAndStats(finalFlyStruct, NumGaps)
 
 % Define the TransitionIDs for each gap crossing
@@ -152,7 +152,7 @@ stderror = std(FlyCrossCountRate)/sqrt(length(FlyCrossCountRate));
 % SumCrossBinomErr = sqrt(SumCrossCountRate.*(1-SumCrossCountRate)./(sum(FlyCrossCount)+sum(FlyRetCount)+sum(FlyCircCount)));
 
 % Plot the population mean and error with n = # of flies
-figure(1)
+fig1 = figure(1);
 errorbar(2.5:0.5:4,meanCrossRate,stderror);
 xlim([2.3 4.2]);
 xticks(2.5:0.5:4);
@@ -168,7 +168,7 @@ ylabel('Success Rate');
 % ylabel('Success Rate');
 
 % Plot the mean and error for each fly
-figure(2)
+fig2 = figure(2);
 hold on
 for i = 1:length(finalFlyStruct)
 errorbar(2.5:0.5:4, FlyCrossCountRate(i,:),FlyCrossBinomErr(i,:));
