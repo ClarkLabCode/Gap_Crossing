@@ -2,6 +2,7 @@
 
 % Inputs
 % inputFileName     = Name of video file to be analyzed, must include extension
+% NumCorridors      = Number of corridors in the cassette
 % NumGaps           = Number of gaps within each corridor
 
 % Outputs
@@ -14,7 +15,7 @@
 % central parts of the corridors, then 2*NumGaps+2 to 3*NumGaps+1 for the
 % well parts of the corridors
 
-function [CompMask1, CompMask2] = CompTracer(inputFileName, NumGaps, indPos)
+function [CompMask1, CompMask2] = CompTracer(inputFileName, NumCorridors, NumGaps, indPos)
 
 % Declare VideoReader object
 reader1 = VideoReader(inputFileName);
