@@ -106,6 +106,7 @@ mkdir 'Background_Frames';
 mkdir 'Fly_Structure';
 mkdir 'Processed_Video_Structure';
 mkdir 'Raw_Videos';
+mkdir 'Plots';
 
 % Navigate into Raw_Videos and copy in the video file
 cd 'Raw_Videos';
@@ -144,7 +145,7 @@ end
 finalStats = CompIdentifierHan(finalStats, CompMask1, CompMask2, indPos, NumComps);
 finalFlyStruct = FinalStatsToFlyStructHan(finalStats, NumCorridors);
 finalFlyStruct = FlyActivityFilterHan(finalFlyStruct);
-[finalFlyStruct, meanCrossRate, stderror, FlyCrossCountRate, FlyCrossBinomErr] = ...
+[finalFlyStruct, meanCrossRate, stderror, FlyCrossCountRate, FlyCrossBinomErr, fig1, fig2] = ...
     FindCrossEventsAndStatsHan(finalFlyStruct, NumGaps);
 finalFlyStruct = MetaDataAdderHan(finalFlyStruct, genotype, dateAcq,...
     timeAcq, eclosionDate, timeZone, notes, flipRate, expLength, temp, CassetteID, ...
@@ -155,5 +156,10 @@ finalFlyStruct = MetaDataAdderHan(finalFlyStruct, genotype, dateAcq,...
 cd ../Fly_Structure
 save([directoryName,'_finalFlyStruct.mat'],'finalFlyStruct');
 save([directoryName,'_analyzed_workspace.mat']);
+
+% Navigate to Plots and save plots there
+cd ../Plots
+saveas(fig1,[directoryName,'_Crossing_Rate_avg_flies.fig']);
+saveas(fig2,[directoryName,'_Crossing_Rate_all_flies.fig']);
 
 end
