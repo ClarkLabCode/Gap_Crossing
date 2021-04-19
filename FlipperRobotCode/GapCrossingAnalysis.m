@@ -1,4 +1,5 @@
-% Runs all gap crossing scripts in appropriate order
+% Runs all gap crossing scripts in appropriate order and saves all data
+% into the subfolder structure: Data\[Directory Name]\...
 
 % VidPrevProcessed = Whether the raw video has been processed before
 % Since this is by far the most time-consuming part of the analysis
