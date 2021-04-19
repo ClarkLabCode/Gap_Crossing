@@ -8,12 +8,14 @@
 %                 odd numbered flips
 % CompMask2     = Cell array that holds the mask for each compartment for all
 %                 even numbered flips
+% indPos        = Index of frame at which flips happen
+% NumComps      = Number of compartments per corridor
 
 % Output:
 % finalStats    = Structure that holds all info from the video, each row
 %                 corresponds to a particular fly at a particular time
 
-function finalStats = CompIdentifier(finalStats, CompMask1, CompMask2, indPos)
+function finalStats = CompIdentifier(finalStats, CompMask1, CompMask2, indPos, NumComps)
 
 % Go through each row of finalStats and figure out which compartment the
 % fly is in and add that info to the structure
