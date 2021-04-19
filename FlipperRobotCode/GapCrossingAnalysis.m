@@ -140,7 +140,7 @@ end
 % Now run the rest of the analysis
 [finalStats, CorrMask1, CorrMask2] = ...
     CorridorIdentifierHan(inputFileName, finalStats, NumCorridors, indPos);
-[CompMask1, CompMask2] = CompTracerHan(inputFileName, NumGaps, indPos);
+[CompMask1, CompMask2] = CompTracerHan(inputFileName, NumCorridors, NumGaps, indPos);
 finalStats = CompIdentifierHan(finalStats, CompMask1, CompMask2, indPos);
 finalFlyStruct = FinalStatsToFlyStructHan(finalStats, NumCorridors);
 finalFlyStruct = FlyActivityFilterHan(finalFlyStruct);
