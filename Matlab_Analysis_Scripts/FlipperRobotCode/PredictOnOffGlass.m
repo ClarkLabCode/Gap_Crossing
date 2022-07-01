@@ -17,7 +17,7 @@ netOnOffAmbig = WS.netOnOffAmbig;
 avgPixVal = 0.9;
 
 % Initialize the video reader object to read in clips
-reader1 = VideoReader(inputFileName);
+reader1 = VideoReader(['..\0_Raw_Videos\',inputFileName]);
 
 % Establish the size of the clips
 frameWidth = 100;

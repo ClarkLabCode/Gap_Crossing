@@ -196,6 +196,9 @@ tic
                     disp(['Saved: ', pwd,'\', ...
                           WS.directoryName,'_Exp',num2str(WS.ExpRepNum),'_WS_struct.mat'])
                 end
+                  
+                % Navigate back into the base code directory
+                cd([LocalGCDirectoryPath,'Matlab_Analysis_Scripts\FlipperRobotCode']);
             end
 
         case MakeSkeleton
@@ -221,6 +224,9 @@ tic
                 save([WS.directoryName,'_Exp',num2str(WS.ExpRepNum),'_WS_struct.mat'],'WS');
                 disp(['Saved: ', pwd,'\', ...
                       WS.directoryName,'_Exp',num2str(WS.ExpRepNum),'_WS_struct.mat'])
+                  
+                % Navigate back into the base code directory
+                cd([LocalGCDirectoryPath,'Matlab_Analysis_Scripts\FlipperRobotCode']);
             end
 
         case RunNeuralNet
@@ -257,6 +263,9 @@ tic
                 save([WS.directoryName,'_Exp',num2str(WS.ExpRepNum),'_WS_struct.mat'],'WS');
                 disp(['Saved: ', pwd,'\', ...
                       WS.directoryName,'_Exp',num2str(WS.ExpRepNum),'_WS_struct.mat'])
+                  
+                % Navigate back into the base code directory
+                cd([LocalGCDirectoryPath,'Matlab_Analysis_Scripts\FlipperRobotCode']);
             end
 
         case RunFinalStep
@@ -289,6 +298,9 @@ tic
                 FlipBinnedFlyStruct = WS.FlipBinnedFlyStruct;
                 save([WS.directoryName,'_FlipBinnedFlyStruct_Exp',num2str(WS.ExpRepNum),'.mat'],...
                       'FlipBinnedFlyStruct');
+                  
+                % Navigate back into the base code directory
+                cd([LocalGCDirectoryPath,'Matlab_Analysis_Scripts\FlipperRobotCode']);
             end
             
         case AnalysisDone

@@ -58,7 +58,7 @@ if AnalysisStageOfExpVec(1)
     SkeletonMade = true;
     % Check if video processing has also been done by loading in one WS and
     % checking for finalStats field which is generated from video processing
-    tempWS = load(WS_names{1});
+    tempWS = load(['..\..\',WS_names{1}]);
     tempWS = tempWS.WS;
     % If it has, set VidProcessed to be true too
     if isfield(tempWS, 'finalStats')
