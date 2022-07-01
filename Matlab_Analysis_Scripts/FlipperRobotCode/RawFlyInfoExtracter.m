@@ -28,7 +28,7 @@ erodePix                = WS.erodePix;
 indPos                  = WS.indPos;
 
 % Open a video reader and grab the important quantities from it
-reader1 = VideoReader(inputFileName);
+reader1 = VideoReader(['..\0_Raw_Videos\',inputFileName]);
 frameCount = floor(reader1.Duration * reader1.FrameRate) - 1;
 resolution = [reader1.Width reader1.Height];
 

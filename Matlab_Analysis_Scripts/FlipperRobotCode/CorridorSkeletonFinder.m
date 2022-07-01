@@ -9,7 +9,7 @@ ExampleSkeletonCoordsFilePath   = WS.ExampleSkeletonCoordsFilePath;
 ExampleSkeletonImgFilePath      = WS.ExampleSkeletonImgFilePath;
 
 % Create video reader object
-reader = VideoReader(['..\..\Data\All_Raw_Videos',inputFileName]);
+reader = VideoReader(['..\0_Raw_Videos\',inputFileName]);
 
 % Initialize necessary matrices
 x = zeros(2*NumGaps + 6,2);
@@ -53,11 +53,11 @@ for oddEven = 1:2
         end
 
         % Load in the coordinates of the example figure
-        Example_Coords = load(['..\..\',ExampleSkeletonCoordsFilePath]);
+        Example_Coords = load(['..\..\..\..\',ExampleSkeletonCoordsFilePath]);
 
         % Create the figure that already has its points labeled to guide the user
         example_fig = figure();
-        frame = imread(['..\..\',ExampleSkeletonImgFilePath]);
+        frame = imread(['..\..\..\..\',ExampleSkeletonImgFilePath]);
         frameSize = size(frame);
 
         % If the video has the smallest gap at the bottom, load in the example with

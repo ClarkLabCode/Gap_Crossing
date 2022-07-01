@@ -44,7 +44,7 @@ ClassifyOnOffFunc                   = @ClassifyOnOff;
 % Check to make sure that we are in the correct directory to run this
 % function, and if we aren't, have the user navigate to the right directory
 % This also adds the path to this directory upon success of the function
-LocalGCDirectoryPath = GCADirectoryCheckerFunc;
+LocalGCDirectoryPath = GCADirectoryCheckerFunc();
 
 % Warn user that this function clears workspace and figures and confirm
 % that this is okay before proceeding
@@ -157,7 +157,7 @@ tic
             % Loop through all experiments loaded in
             for vidCounter = 1:NumGCExp
                 % Load in WS for each experiment
-                WS = load(WS_names{vidCounter});
+                WS = load(['..\..\',WS_names{vidCounter}]);
                 % To get the correct WS, we must go in one layer
                 WS = WS.WS;
 
@@ -203,7 +203,7 @@ tic
             for vidCounter = 1:NumGCExp
 
                 % Load in WS for each experiment
-                WS = load(WS_names{vidCounter});
+                WS = load(['..\..\',WS_names{vidCounter}]);
                 % To get the correct WS, we must go in one layer
                 WS = WS.WS;
 
@@ -227,7 +227,7 @@ tic
             % Loop through all experiments loaded in
             for vidCounter = 1:NumGCExp
                 % Load in WS for each experiment
-                WS = load(WS_names{vidCounter});
+                WS = load(['..\..\',WS_names{vidCounter}]);
                 % To get the correct WS, we must go in one layer
                 WS = WS.WS;
 
@@ -263,7 +263,7 @@ tic
             % Loop through all experiments loaded in
             for vidCounter = 1:NumGCExp
                 % Load in WS for each experiment
-                WS = load(WS_names{vidCounter});
+                WS = load(['..\..\',WS_names{vidCounter}]);
                 % To get the correct WS, we must go in one layer
                 WS = WS.WS;
 

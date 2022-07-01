@@ -24,7 +24,7 @@ flipRate            = WS.flipRate;
 indPosFrameBuffer   = WS.indPosFrameBuffer;
 plotYN              = 0;
 
-reader1 = VideoReader(inputFileName);
+reader1 = VideoReader(['..\0_Raw_Videos\',inputFileName]);
 frameCount = floor(reader1.Duration * reader1.FrameRate) - 1;
 resolution = [reader1.Width reader1.Height];
 dotProdVec = zeros(frameCount,1);
