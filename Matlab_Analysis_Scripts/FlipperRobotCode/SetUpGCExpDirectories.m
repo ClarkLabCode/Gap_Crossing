@@ -48,12 +48,15 @@ for vidCounter = 1:NumGCExp
 
     % Now fill WS_names appropriately
     WS_names{vidCounter} = ...
-        [LocalGCDirectoryPath,'Data\',WS.directoryName, ...
+        ['Data\',WS.directoryName, ...
          '\Experiment_', num2str(WS.ExpRepNum),'\1_Params_Entered\', ...
          WS.directoryName,'_Exp',num2str(WS.ExpRepNum),'_WS_struct.mat'];
 
     % Now clear WS
     clear WS
+    
+    % Navigate back into the base code directory
+    cd([LocalGCDirectoryPath,'Matlab_Analysis_Scripts\FlipperRobotCode']);
 
 end
 
