@@ -44,7 +44,7 @@ ClassifyOnOffFunc                   = @ClassifyOnOff;
 % Check to make sure that we are in the correct directory to run this
 % function, and if we aren't, have the user navigate to the right directory
 % This also adds the path to this directory upon success of the function
-LocalGCDirectoryPath = GCADirectoryCheckerFunc;
+LocalGCDirectoryPath = GCADirectoryCheckerFunc();
 
 % Warn user that this function clears workspace and figures and confirm
 % that this is okay before proceeding
