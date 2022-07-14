@@ -11,7 +11,13 @@ function WS = AnalyzeCrossStats2(WS)
 close all
 
 % Move to the correct data folder so that files can be saved in right place
-cd(['C:\Users\clarklab\Joe\Gap_Crossing\Data\', WS.directoryName]);
+flipperRobotCodePath = pwd;
+dataPath = [flipperRobotCodePath,'\..\..\Data\'];
+cd(dataPath);
+dataPath = pwd;
+dataPath = [dataPath, '\'];
+cd(flipperRobotCodePath);
+cd([dataPath, WS.directoryName]);
 
 % Port in the relevant fields from WS
 FBFS = WS.FlipBinnedFlyStruct;
@@ -407,22 +413,22 @@ AllDownVecProperCrossOverAllGapEventStd = ...
 % ylim([0,1]);
 % legend('Odd Flips','Even Flips','All Flips');
 
-figure
-
-% Plot "Crossings" / All Events for up, down, and all 
-hold on
-errorbar(gapSizes,mean(AllUpVecAllCrossOverAllGapEventRate,1),AllUpVecAllCrossOverAllGapEventStd);
-errorbar(gapSizes,mean(AllDownVecAllCrossOverAllGapEventRate,1),AllDownVecAllCrossOverAllGapEventStd);
-errorbar(gapSizes,mean(AllAllVecAllCrossOverAllGapEventRate,1),AllAllVecAllCrossOverAllGapEventStd);
-hold off
-
-title([WS.directoryName, ' (', WS.genotype, ')'], 'Interpreter', 'none')
-xlabel('Gap Width (mm)');
-ylabel('All Cross Events / All Gap Events');
-xlim([0.8,2.7]);
-xticks(1:0.5:2.5);
-ylim([0,1]);
-legend('Up','Down','All');
+% figure
+% 
+% % Plot "Crossings" / All Events for up, down, and all 
+% hold on
+% errorbar(gapSizes,mean(AllUpVecAllCrossOverAllGapEventRate,1),AllUpVecAllCrossOverAllGapEventStd);
+% errorbar(gapSizes,mean(AllDownVecAllCrossOverAllGapEventRate,1),AllDownVecAllCrossOverAllGapEventStd);
+% errorbar(gapSizes,mean(AllAllVecAllCrossOverAllGapEventRate,1),AllAllVecAllCrossOverAllGapEventStd);
+% hold off
+% 
+% title([WS.directoryName, ' (', WS.genotype, ')'], 'Interpreter', 'none')
+% xlabel('Gap Width (mm)');
+% ylabel('All Cross Events / All Gap Events');
+% xlim([0.8,2.7]);
+% xticks(1:0.5:2.5);
+% ylim([0,1]);
+% legend('Up','Down','All');
     
 % figure
 % 
@@ -471,13 +477,14 @@ delete('dummyFileToBeDeleted.mat');
 crossStats = rmfield(crossStats,'WS');
 
 % Save the figures
-saveas(figure(1), [WS.directoryName, '_Crossing_Plot.fig']);
-saveas(figure(2), [WS.directoryName, '_Proper_Crossing_Plot.fig']);
+% saveas(figure(1), [WS.directoryName, '_Crossing_Plot.fig']);
+% saveas(figure(2), [WS.directoryName, '_Proper_Crossing_Plot.fig']);
+saveas(figure(1), [WS.directoryName, '_Proper_Crossing_Plot.fig']);
 
 % Update the fields in WS
 WS.crossStats = crossStats;
 
 % Navigate back to the data folder
-cd 'C:\Users\clarklab\Joe\Gap_Crossing\Data\'
+cd(flipperRobotCodePath);
 
 end

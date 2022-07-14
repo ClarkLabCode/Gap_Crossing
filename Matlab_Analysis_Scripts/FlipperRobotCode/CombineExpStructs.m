@@ -9,7 +9,12 @@ function WS = CombineExpStructs(NumExp)
 % Navigate to the data folder and let the user select the folder containing
 % the data for the genotype of interest. This isn't necessary, but it saves
 % the user time by helping automatically navigate folders later on.
-dataPath = 'C:\Users\clarklab\Joe\Gap_Crossing\Data\';
+flipperRobotCodePath = pwd;
+dataPath = [flipperRobotCodePath,'\..\..\Data\'];
+cd(dataPath);
+dataPath = pwd;
+dataPath = [dataPath, '\'];
+cd(flipperRobotCodePath);
 GenotypeDirectory = uigetdir(dataPath,'Select Genotype Folder');
 cd(GenotypeDirectory);
 
@@ -86,6 +91,6 @@ WS.threshProb          = tempWS.threshProb;
 save([WS.directoryName,'_WS_Combined.mat'],'WS')
 
 % Navigate back to the data directory
-cd(dataPath);
+cd(flipperRobotCodePath);
 
 end
