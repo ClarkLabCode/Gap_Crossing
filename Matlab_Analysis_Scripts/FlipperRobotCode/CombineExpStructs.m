@@ -46,7 +46,7 @@ for expCounter = 1:NumExp
     
     % Check that the experiments being combined aren't mismatching
     if expCounter ~= 1
-        if temp_genotype            ~= tempWS.genotype
+        if temp_genotype(find(~isspace(temp_genotype)))  ~= tempWS.genotype(find(~isspace(tempWS.genotype)))
             error('Mismatching experiments being combined');
         end
         if temp_directoryName       ~= tempWS.directoryName
