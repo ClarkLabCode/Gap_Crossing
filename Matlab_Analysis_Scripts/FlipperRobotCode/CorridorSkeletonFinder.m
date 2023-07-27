@@ -17,6 +17,65 @@ y = zeros(2*NumGaps + 6,2);
 Skeleton_x = zeros(NumGaps*8 + 4,2,NumCorridors);
 Skeleton_y = zeros(NumGaps*8 + 4,2,NumCorridors);
 
+% Establish some values and vectors that will be used to index through the 
+% above matrices when performing computations to extract the skeleton
+L_Skel = 8*NumGaps + 4; % Number of points in a given orientation's skeleton for a single corridor
+L1 = (2*(NumGaps+1) + 3); % Number of skeleton points from operation 1
+
+% Vec1_Skel is the vector of indices in Skeleton_x/y being manipulated in operation 1
+Vec1_Skel = zeros(L1,1);
+Vec1_Skel(1:4) = [1,2,3,5];
+Vec1_Skel((end-2):end) = [L_Skel/2, L_Skel-2, L_Skel-1];
+for i = 1:(2*(NumGaps-1))
+    Vec1_Skel(i+4) = i + 5 + 2*floor(i/2);
+end
+
+% Vec1_x is the vector of indices in x/y being used for manipulations in operation 1
+Vec1_x = 1:L1;
+Vec1_x = circshift(Vec1_x,1);
+Vec1_x(3) = Vec1_x(end-1);
+Vec1_x(end-1) = L1;
+Vec1_x(1:2) = 1:2;
+Vec1_x = Vec1_x';
+
+L2 = 2*NumGaps-1; % Number of skeleton points from operation 2
+
+% Vec2_Skel is the vector of indices in Skeleton_x/y being manipulated in operation 2
+Vec2_Skel = zeros(L2,1);
+for i = 1:L2
+    Vec2_Skel(i) = i + 3 + 2*floor(i/2);
+end
+
+% Vec2_x is the vector of indices in x/y being used for manipulations in operation 2 
+Vec2_x = 2+(1:L2);
+Vec2_x = Vec2_x';
+
+L3 = 2*NumGaps+1; % Number of skeleton points from operation 3
+
+% Vec3_Skel is the vector of indices in Skeleton_x/y being manipulated in operation 3
+Vec3_Skel = zeros(L3,1);
+Vec3_Skel(end) = L_Skel;
+for i = 1:(L3-1)
+    Vec3_Skel(i) = i + (4*NumGaps + 2) + 2*floor((i-1)/2);
+end
+
+% Vec3_x is the vector of indices in x/y being used for manipulations in operation 3
+Vec3_x = 1 + (1:L3);
+Vec3_x(1) = Vec3_x(1)-1;
+Vec3_x = flip(Vec3_x);
+Vec3_x = Vec3_x';
+
+L4 = 2*NumGaps - 1; % Number of skeleton points from operation 4
+
+% Vec4_Skel_a is the vector of indices in Skeleton_x/y being manipulated in operation 4
+% Vec4_Skel_b is the vector of indices in Skeleton_x/y being used for manipulations in operation 4
+Vec4_Skel_a = zeros(L4,1);
+Vec4_Skel_b = zeros(L4,1);
+for i = 1:L4
+    Vec4_Skel_a(i) = i + (4*NumGaps + 2) + 2*floor((i+1)/2);
+    Vec4_Skel_b(i) = i + (4*NumGaps + 3) + 2*floor(i/2);
+end
+
 % Do a loop for odd flips (1st flip) and then one for even flips (2nd flip)
 for oddEven = 1:2
     % Initialize SkeletonError to have an "error" so that the while loop
@@ -87,7 +146,7 @@ for oddEven = 1:2
         figure(example_fig)
         hold on
         plot(x_example,y_example,'ro','MarkerFaceColor','r');
-        for pointCounter = 1:length(x_example)
+        for pointCounter = 1:min(14,size(x,1)) % min 14 is because overlay is for standard 4 gaps
             text(x_example(pointCounter)+5,y_example(pointCounter),num2str(pointCounter),'Color','r','FontSize',14);
         end
         text(legend_x(1),legend_y(1),'Left-most Corridor','HorizontalAlignment',"center",'Color','b','FontSize',14);
@@ -108,7 +167,7 @@ for oddEven = 1:2
         end
 
         % Have the user input one point at a time
-        for pointCounter = 1:length(x_example)
+        for pointCounter = 1:size(x,1)
             % Prompt user in command window with instructions
             fprintf(['Label point ', num2str(pointCounter), ...
                 ' starting from the left-most corridor and finishing with the', ...
@@ -142,35 +201,42 @@ for oddEven = 1:2
 
             % Change the color of the point from red to green in the example image
             % once the user has marked that point
-            figure(example_fig)
-            hold on
-            plot(x_example(pointCounter),y_example(pointCounter),'go','MarkerFaceColor','g');
-            text(x_example(pointCounter)+5,y_example(pointCounter),num2str(pointCounter),...
-                'Color','b','FontSize',14);
-            hold off
+            if pointCounter <= 14 % Cut off the green points at 14 since example overlay is 4 gaps
+                figure(example_fig)
+                hold on
+                plot(x_example(pointCounter),y_example(pointCounter),'go','MarkerFaceColor','g');
+                text(x_example(pointCounter)+5,y_example(pointCounter),num2str(pointCounter),...
+                    'Color','b','FontSize',14);
+                hold off
+            end
         end
-
+        
         % Now compute the skeleton coordinates based on the points selected
-        Skeleton_x([1,2,3,5,6,9,10,13,14,17,18,34,35],oddEven,1) = ...
-            x([1,2,11,3,4,5,6,7,8,9,10,13,12],oddEven);
-        Skeleton_y([1,2,3,5,6,9,10,13,14,17,18,34,35],oddEven,1) = ...
-            y([1,2,11,3,4,5,6,7,8,9,10,13,12],oddEven);
-        Skeleton_x([4,7,8,11,12,15,16],oddEven,1) = ...
-            x([3,4,5,6,7,8,9],oddEven) - (x(2,oddEven) - x(11,oddEven));
-        Skeleton_y([4,7,8,11,12,15,16],oddEven,1) = ...
-            y([3,4,5,6,7,8,9],oddEven) - (y(2,oddEven) - y(11,oddEven));
-        Skeleton_x(19,oddEven,1) = ...
-            x(10,oddEven) + (x(2,oddEven) - x(11,oddEven));
-        Skeleton_y(19,oddEven,1) = ...
-            y(10,oddEven) + (y(2,oddEven) - y(11,oddEven));
-        Skeleton_x([20,23,24,27,28,31,32,35,36],oddEven,1) = ...
-            x([9,8,7,6,5,4,3,2,1],oddEven) - (x(2,oddEven) - x(12,oddEven));
-        Skeleton_y([20,23,24,27,28,31,32,35,36],oddEven,1) = ...
-            y([9,8,7,6,5,4,3,2,1],oddEven) - (y(2,oddEven) - y(12,oddEven));
-        Skeleton_x([21,22,25,26,29,30,33,34],oddEven,1) = ...
-            Skeleton_x([20,23,24,27,28,31,32,35],oddEven,1) - (x(12,oddEven) - x(13,oddEven));
-        Skeleton_y([21,22,25,26,29,30,33,34],oddEven,1) = ...
-            Skeleton_y([20,23,24,27,28,31,32,35],oddEven,1) - (y(12,oddEven) - y(13,oddEven));
+        % All points user already selected on skeleton
+        Skeleton_x(Vec1_Skel,oddEven,1) = ...
+            x(Vec1_x,oddEven);
+        Skeleton_y(Vec1_Skel,oddEven,1) = ...
+            y(Vec1_x,oddEven);
+        % Left side outer gap points not selected by user
+        Skeleton_x(Vec2_Skel,oddEven,1) = ...
+            x(Vec2_x,oddEven) - (x(2,oddEven) - x((2*(NumGaps+1) + 1),oddEven));
+        Skeleton_y(Vec2_Skel,oddEven,1) = ...
+            y(Vec2_x,oddEven) - (y(2,oddEven) - y((2*(NumGaps+1) + 1),oddEven));
+%         % Top right corner of corridor
+%         Skeleton_x((L_Skel/2 + 1),oddEven,1) = ...
+%             x(2*(NumGaps+1),oddEven) + (x(2,oddEven) - x((2*(NumGaps+1) + 1),oddEven));
+%         Skeleton_y((L_Skel/2 + 1),oddEven,1) = ...
+%             y(2*(NumGaps+1),oddEven) + (y(2,oddEven) - y((2*(NumGaps+1) + 1),oddEven));
+        % Right side inner gap points not selected by user
+        Skeleton_x(Vec3_Skel,oddEven,1) = ...
+            x(Vec3_x,oddEven) - (x(2,oddEven) - x((2*(NumGaps+1) + 2),oddEven));
+        Skeleton_y(Vec3_Skel,oddEven,1) = ...
+            y(Vec3_x,oddEven) - (y(2,oddEven) - y((2*(NumGaps+1) + 2),oddEven));
+        % Right side outer gap points not selected by user
+        Skeleton_x(Vec4_Skel_a,oddEven,1) = ...
+            Skeleton_x(Vec4_Skel_b,oddEven,1) - (x((2*(NumGaps+1) + 2),oddEven) - x((2*(NumGaps+1) + 3),oddEven));
+        Skeleton_y(Vec4_Skel_a,oddEven,1) = ...
+            Skeleton_y(Vec4_Skel_b,oddEven,1) - (y((2*(NumGaps+1) + 2),oddEven) - y((2*(NumGaps+1) + 3),oddEven));
 
         % Now overlay the skeletons over the video frames
         figure(label_fig)
@@ -180,9 +246,9 @@ for oddEven = 1:2
             figure(label_fig)
             hold on
             Skeleton_x(:,oddEven,corrCounter+1) = ...
-                Skeleton_x(:,oddEven,corrCounter) + (1/(NumCorridors-1))*(x(14,oddEven) - x(1,oddEven));
+                Skeleton_x(:,oddEven,corrCounter) + (1/(NumCorridors-1))*(x((2*(NumGaps+1) + 4),oddEven) - x(1,oddEven));
             Skeleton_y(:,oddEven,corrCounter+1) = ...
-                Skeleton_y(:,oddEven,corrCounter) + (1/(NumCorridors-1))*(y(14,oddEven) - y(1,oddEven));
+                Skeleton_y(:,oddEven,corrCounter) + (1/(NumCorridors-1))*(y((2*(NumGaps+1) + 4),oddEven) - y(1,oddEven));
             plot(Skeleton_x(:,oddEven,corrCounter+1),Skeleton_y(:,oddEven,corrCounter+1),'r*');
         end
 
