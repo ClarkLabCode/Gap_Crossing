@@ -1,4 +1,14 @@
-% Extracts all the desired raw info from the video and puts into struct
+% RAWFLYINFOEXTRACTER Extracts trajectory info from raw video and puts in struct
+%
+%  This is the function that converts from raw video to quantitative data.
+%  It reads in the video and uses the frames of the flip (found by the
+%  FindFramesForFlip function), performs background subtraction, and then 
+%  performs blob detection (using Matlab's built-in regionprops function).
+%  Some filtering is done in this function via imerode and regionprops to
+%  ensure that things that aren't flies do not get detected as flies (e.g.,
+%  blobs are only counted as flies as long as their size is roughly that of
+%  a standard fly). These filtering settings can be modified if the user
+%  calls the FullGapCrossingAnalysis function with non-default parameters.
 
 % Inputs:
 % inputFileName     = Name of video file to be analyzed, must include extension

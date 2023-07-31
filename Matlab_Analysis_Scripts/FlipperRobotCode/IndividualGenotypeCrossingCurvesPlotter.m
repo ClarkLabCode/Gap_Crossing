@@ -1,3 +1,20 @@
+% INDIVIDUALGENOTYPECROSSINGCURVESPLOTTER Script to plot individual crossing curves
+%
+%  This script allows the user to plot individual crossing curves (typically 
+%  of one particular genotype, but not necessarily). In order to successfully 
+%  run this script, the cell arrays AllCrossStats, AllCrossStatsNames, and
+%  AllCrossStatsGenotypes must all be loaded into the workspace.
+%
+%  Users are given the choice between standard plots (i.e., comparing like
+%  genotypes to controls) or making any other comparison they choose. They
+%  are also given the option to plot the synthetic control, both parental
+%  controls, or all three controls when making standard comparison plots.
+
+% Check that the user has loaded in AllCrossStats
+if ~exist('AllCrossStats','var')
+    error('Please load in AllCrossStats, AllCrossStatsNames, and AllCrossStatsGenotypes before running this script.')
+end
+
 % Ask user what kind of comparison they want to plot
 genotypesCompared = ...
     questdlg('What genotypes do you want to compare?','Genotype Comparison',...

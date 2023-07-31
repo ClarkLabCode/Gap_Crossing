@@ -1,3 +1,34 @@
+% FULLGAPCROSSINGANALYSIS Performs the full analysis of given experiments
+%
+%  This is the main function used to analyze individual gap crossing 
+%  experiments. It calls upon the vast majority of the other functions
+%  provided in the FlipperRobotCode directory. To see a full list of the
+%  functions nested within this function, use Ctrl+F and search "Func".
+%
+%  The user can either pass the number of gap crossing experiments being
+%  analyzed simultaneously as an input to the function or can pass no input
+%  to the function (which will later prompt the user to ask how many
+%  experiments they want to analyze).
+%  
+%  Several GUIs will pop up asking the user what analysis settings they want
+%  to use (e.g., if they want analysis check points, default analysis 
+%  parameters, etc.) and will also warn the user that their workspace and 
+%  figures will be cleared by allowing this function to run.
+%
+%  This function contains everything needed to go from raw video (or any
+%  intermediate step) to a fully analyzed experiment. Once it's been run on
+%  a set of experiments, users can use the CombineExpStructs, 
+%  AlignCorridors, and AnalyzeCrossStats functions (in that order) to
+%  complete the full analysis for any grouping of experiments/genotypes.
+%
+%  Progress is saved at the end of each intermediate step within this
+%  function in the form of .mat files in their appropriate subdirectories
+%  within the analysis directory created during the analysis process. If
+%  anything were to disrupt this analysis function (e.g., PC restart during
+%  a batch of 30 experiments being analyzed), no more than ~30 mins worth
+%  of analysis progress should be lost regardless of how many experiments
+%  were being analyzed at a time.
+
 function FullGapCrossingAnalysis(varargin)
 
 % Parse the input to see if user specified how many experiments are to be

@@ -1,3 +1,14 @@
+% ALLCROSSSTATSNAMESMAKER Lets user create AllCrossStatsNames
+%  
+%  This script generates the cell array AllCrossStatsNames that holds the
+%  names of all the experiments being held in AllCrossStats.
+%  
+%  Structure of the cell array:
+%  Column 1: All generic controls
+%  Column 2: [Gal4] > +; shts(5); shR(5)
+%  Column 3: [Gal4] > +; +; +
+%  Columns 4+: Other experiments related to [Gal4] in that row
+
 % Initialize All_CrossStats_Names (41 drivers, up to 15 types of exp per driver
 AllCrossStatsNames = cell(41,15);
 

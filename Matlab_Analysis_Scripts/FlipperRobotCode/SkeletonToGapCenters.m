@@ -1,4 +1,8 @@
-% Uses the user-made skeleton to find the centers of the gaps
+% SKELETONTOGAPCENTERS Takes user-made skeleton to find centers of the gaps
+% 
+%  Once the user has made the skeleton (CorridorSkeletonFinder), this
+%  function takes the labeled skeleton points and computes the center of
+%  each gap.
 
 function WS = SkeletonToGapCenters(WS)
 

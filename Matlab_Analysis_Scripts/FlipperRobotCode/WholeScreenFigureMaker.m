@@ -1,3 +1,26 @@
+% WHOLESCREENFIGUREMAKER Creates the figure of all genotypes' crossing curves
+%
+%  This script generates the main screen figure for the paper. It is a tiled
+%  figure in which each tile corresponds to a different neuron being silenced
+%  along with its control(s). The user is asked to select which control(s)
+%  to show in the figure (the options are the synthetic control, both
+%  parental controls, or the most statistically conservative control).
+%
+%  In order to successfully run this script, the cell arrays AllCrossStats,
+%  AllCrossStatsNames, and AllCrossStatsGenotypes must all be loaded into 
+%  the workspace.
+%
+%  This function also generates all the statistical info relevant for the
+%  screen. To see the Bonferroni-Holm corrected statistical tests, look at
+%  the following two output variables:
+%     p_values_most_conservative_comps_scaled       <-- Bonferroni-Holm corrected p values
+%     p_values_most_conservative_comps_sorted_names <-- Corresponding neuron and comparison
+
+% Check that the user has loaded in AllCrossStats
+if ~exist('AllCrossStats','var')
+    error('Please load in AllCrossStats, AllCrossStatsNames, and AllCrossStatsGenotypes before running this script.')
+end
+
 % Initialize vectors that will hold p values for point-by-point comparisons
 p_of_points_to_synth_vec_up = ones(4*(max(size(AllCrossStats))),1);
 p_of_points_to_empty_over_shts_vec_up = ones(4*(max(size(AllCrossStats))),1);

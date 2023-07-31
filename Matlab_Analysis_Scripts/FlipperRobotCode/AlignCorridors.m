@@ -1,13 +1,16 @@
-% Takes all data in BehavData of a combined WS and produces a combined
-% aligned WS in which all corridors have their coordinates transformed to
-% be overlayed and perfectly straightened vertically. The new origin is at
-% the center of the corridor, the y axis points up and x axis points right,
-% and a set of x coordinates and orientations are provided in which the
-% corridor is folded along its vertical axis of symmetry. Positive x in
-% this coordinate system is defined as being into the gaps. All units of
-% the aligned data are in real units (i.e., mm and sec).
-
-% Meant to be used with the output of CombineExpStructs2
+% ALIGNCORRIDORS Aligns all corridors across combined experiments
+%  
+%  Takes all data in BehavData of a combined WS and produces a combined
+%  aligned WS in which all corridors have their coordinates transformed to
+%  be overlayed and perfectly straightened vertically. The new origin is at
+%  the center of the corridor, the y axis points up and x axis points right,
+%  and a set of x coordinates and orientations are provided in which the
+%  corridor is folded along its vertical axis of symmetry. Positive x in
+%  this coordinate system is defined as being into the gaps. All units of
+%  the aligned data are in real units (i.e., mm and sec).
+%  
+%  Meant to be used with the output of CombineExpStructs and used as the
+%  input for AnalyzeCrossStats
 
 function WS = AlignCorridors(WS)
 

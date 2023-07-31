@@ -1,3 +1,12 @@
+% ALLCROSSSTATSANDALLCROSSSTATSGENOTYPEMAKER Lets user fill in AllCrossStats 
+%  
+%  This script allows the user to select analyzed files to input into the
+%  entries of AllCrossStats as well as their genotypes. In order for it to
+%  work, you must already have AllCrossStats, AllCrossStatsNames, and
+%  AllCrossStatsGenotypes loaded in your workspace. This is used to create
+%  the lightweight version of all the data that can be contained within 3
+%  cell arrays.
+
 % Choose ranges of colNum and rowNum that you want to fill
 for colNum = [2, 3]
     for rowNum = [32, 40]

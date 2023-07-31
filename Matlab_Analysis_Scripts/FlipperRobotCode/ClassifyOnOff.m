@@ -1,17 +1,21 @@
-% Takes the probabilities output by NN for "crossing" events and uses them
-% to classify each event as either a Glass Crossing or Proper Crossing
-
-% This function has a built in threshold that is used for classification.
-% This threshold should consistently remain the same between analyses
-% unless showing that the threshold has little-to-no effect on the results.
-% The default for this threshold value should be 0.5
-
-% This function also renormalizes the probabilities such that:
-% P(On)     = P(On)     /   (P(On) + P(Off))
-% P(Off)    = P(Off)    /   (P(On) + P(Off))
-% This effectively sets P(Ambig) = 0 and redistributes that probability
-% This is done because this was found to produce the best NN classification
-% results during the NN training procedures done by Joseph and Baohua
+% CLASSIFYONOFF Uses NN probability outputs to classify proper vs glass crossing
+% 
+%  Takes the probabilities output by NN for "crossing" events and uses them
+%  to classify each event as either a Glass Crossing or Proper Crossing
+% 
+%  This function has a built in threshold that is used for classification.
+%  This threshold should consistently remain the same between analyses
+%  unless showing that the threshold has little-to-no effect on the results.
+%  The default for this threshold value should be 0.5.
+% 
+%  This function also renormalizes the NN probabilities such that:
+%  P(On)     = P(On)     /   (P(On) + P(Off))
+%  P(Off)    = P(Off)    /   (P(On) + P(Off))
+%  This effectively sets P(Ambig) = 0 and redistributes that probability.
+%  This is done because this was found to produce the best NN classification
+%  results during the NN training procedures done by Joseph and Baohua.
+%
+%  Here On signifies Glass Crossing and Off signifies Proper Crossing.
 
 function WS = ClassifyOnOff(WS)
 
@@ -92,6 +96,7 @@ for flyCounter = 1:length(WS.FlipBinnedFlyStruct.ExpNum)
     end
 end
 
+% Update the relevant progress checking field
 WS.NNClassificationComplete = 'Yes';
 
 end

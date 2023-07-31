@@ -1,4 +1,10 @@
-% Figures out which frames in the video correspond to flips of cassette
+% FINDFRAMESFORFLIP Figures out which video frames correspond to flips of cassette
+%
+%  This is done by looking for frame sequences in which there is substantial
+%  frame-to-frame differences and for multiple consecutive frames. This is a 
+%  signature of a flip of the cassette because as the cassette flips, it no
+%  longer blocks as much of the backlighting IR LEDs, so there is an overall
+%  large change in pixel-to-pixel luminance.
 
 % Inputs:
 % inputFileName     = Name of video file to be analyzed, must include extension

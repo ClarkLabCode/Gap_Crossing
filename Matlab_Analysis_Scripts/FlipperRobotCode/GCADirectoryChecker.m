@@ -1,10 +1,16 @@
-% Makes sure we are in the correct starting directory to use the
-% FlipperRobot scripts by first trying to navigate the expected directory
-% structure and then asking the user to locate the correct directory if the
-% directory structure was not as expected. Then runs a verification that
-% the user-selected directory is indeed the expected directory. Once the
-% directory is confirmed to be correct, it navigates to the directory and
-% adds it to the path to enable the use of all scripts in the directory.
+% GCADIRECTORYCHECKER Verifies that the code directory is set up correctly
+%
+%  Makes sure we are in the correct starting directory to use the
+%  FlipperRobot scripts by first trying to navigate to the expected directory
+%  structure and then asking the user to locate the correct directory if the
+%  directory structure was not as expected. Then runs a verification that
+%  the user-selected directory is indeed the expected directory. Once the
+%  directory is confirmed to be correct, it navigates to the directory and
+%  adds it to the path to enable the use of all scripts in the directory.
+% 
+%  This function is called early on in FullGapCrossingAnalysis to ensure
+%  that all of the downstream analysis will save in the correct locations
+%  and that all functions being called receive correct calls.
 
 function LocalGCDirectoryPath = GCADirectoryChecker()
 

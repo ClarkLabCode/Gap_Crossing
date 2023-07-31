@@ -1,5 +1,10 @@
-% Adds fields to FBFS that contain the start and end frame of each
-% "crossing" event per fly at all flips for each gap width
+% CROSSINGEVENTFRAMEFINDER Computes the start/end frame of each cross event
+%
+%  Within WS, this function will add a field to FlipBinnedFlyStruct that
+%  contains the start and end frame of each "crossing" event per fly at all
+%  flips for each gap width. These are useful downstream for plotting
+%  trajectories with reasonable start and end points relative to the gap
+%  crossing events that were recorded.
 
 function WS = CrossingEventFrameFinder(WS)
 

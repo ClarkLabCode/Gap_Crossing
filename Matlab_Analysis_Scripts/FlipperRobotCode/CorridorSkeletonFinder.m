@@ -1,3 +1,14 @@
+% CORRIDORSKELETONFINDER Prompts user to outline skeleton of cassette via GUI
+%
+%  When this function is called, the user will first be presented a single
+%  frame from the first odd flip and guided through labeling the points
+%  necessary to draw out the skeleton of each cassette. Upon completion,
+%  the user will be asked to verify their work. If there is a mistake, this
+%  step repeats. If no mistake was made, the the user will be presented a
+%  single frame from the first even flip and once again guided through
+%  labeling. There will be one last check for a mistake. Once everything is
+%  confirmed, the skeleton points are saved to WS accordingly.
+
 function WS = CorridorSkeletonFinder(WS)
 
 % Port in the relevant fields from WS

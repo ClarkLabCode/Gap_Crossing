@@ -1,9 +1,25 @@
-% Combines WS from several experiments into one common WS with a combined
-% FlipBinnedFlyStruct that has the ExpNum layer removed
-
-% Inputs to varargin:
-% 1) NumExps = Number of experiments to combine (can be numeric or 'All')
-% 2) Genotype Folder = Directory to combine
+% COMBINEEXPSTRUCTS Combines multiple experiments into one combined WS
+% 
+%  Combines WS from several experiments into one common WS with a combined
+%  FlipBinnedFlyStruct that has the ExpNum layer removed
+%
+%  The output of this function is meant to be fed into AlignCorridors to
+%  proceed to the next steps of the analysis
+%
+%  Inputs (only first one is mandatory):
+%  1) NumExps = Number of experiments to combine (can be numeric or 'All')
+%  2) Genotype Folder = Directory to combine experiments within
+%
+%  If the second input isn't passed, this function will prompt the user to
+%  select the directory to combine experiments within via GUI.
+% 
+%  In the event that the user is combining dissimilar experiments using
+%  this function, there will be several warning prompts and additional
+%  input requests to make sure everything is adequately labeled and saved.
+%  For the sake of safely plotting things downstream of this function, some
+%  fields will be populated with 'Potentially variable' in this situation
+%  in order to inform downstream functions that these are non-standard
+%  analyses being run.
 
 function WS = CombineExpStructs(varargin)
 

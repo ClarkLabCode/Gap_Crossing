@@ -1,4 +1,9 @@
-% Uses the user-made skeleton to create the masks for the compartments
+% SKELETONTOCOMPMASKS Takes user-made skeleton to generate compartment masks
+% 
+%  Once the user has made the skeleton (CorridorSkeletonFinder), this
+%  function takes the labeled skeleton points and computes the mask for
+%  each individual compartment. For a reminder of how a compartment is 
+%  defined, please refer to the diagram in the README.
 
 function WS = SkeletonToCompMasks(WS)
 

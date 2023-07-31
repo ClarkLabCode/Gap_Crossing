@@ -1,4 +1,10 @@
-% Function that lets user load in previous analysis into WS_all
+% LOADGCEXPWSNAMES Allows users to continue analysis from a checkpoint
+%
+%  This function is called in FullGapCrossingAnalysis to let users load in 
+%  previous analysis that was saved in a checkpoint in FullGapCrossingAnalysis.
+%  It asks the user to load in previously analyzed data one experiment at a
+%  time and then outputs a message to the command window to confirm that
+%  the file was loaded.
 
 function WS_names = LoadGCExpWSNames(NumGCExp,LocalGCDirectoryPath)
 

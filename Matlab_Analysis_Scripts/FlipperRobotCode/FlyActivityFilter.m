@@ -1,5 +1,8 @@
-% Removes flies from finalFlyStruct that do not move for at least 20% of
-% the video
+% FLYACTIVITYFILTER Removes inactive fly statistics from finalFlyStruct
+%
+%  Removes flies from finalFlyStruct that do not move for at least 20% of
+%  the video. This is to prevent inactive flies with little data from
+%  potentially disproportionately affecting population crossing statistics.
 
 function WS = FlyActivityFilter(WS)
 

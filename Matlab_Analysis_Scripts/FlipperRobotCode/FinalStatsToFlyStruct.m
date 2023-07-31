@@ -1,5 +1,14 @@
-% Converts the finalStats struct into finalFlyStruct which is a fly-centric
-% structure
+% FINALSTATSTOFLYSTRUCT Converts finalStats (time-organized) to finalFlyStruct (fly-organized)
+%
+%  This function takes the finalStats struct which is organized by time
+%  (i.e., the first 7 rows are the rows corresponding to the 7 flies at
+%  time point 1, the next 7 are the rows corresponding to 7 flies at time
+%  point 2, etc.) and then creates finalFlyStruct which is a struct
+%  organized by fly (i.e., each row of the struct corresponds to a specific
+%  fly and all entries within that struct row are then organized by time).
+%
+%  This is done by grouping rows in finalStats that shared the same
+%  CorridorID since only one fly can occupy each corridor.
 
 function WS = FinalStatsToFlyStruct(WS)
 

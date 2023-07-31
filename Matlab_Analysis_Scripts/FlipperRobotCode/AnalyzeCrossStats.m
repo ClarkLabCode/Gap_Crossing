@@ -1,9 +1,16 @@
-% Computes and plots all gap crossing-related statistics
-% Breaks down for even/odd flips and for up/down motion
-
-% "Crossing" Rate vs Gap Width
-% Frac of Crossings that are Proper Crossings vs Gap Width
-% Proper Crossing Rate vs Gap Width
+% ANALYZECROSSSTATS Computes and plots crossing statistics and saves to WS
+% 
+%  Takes in WS from AlignCorridor's output and computes all the relevant
+%  crossing statistics in WS and saves them in a field labeled crossStats.
+%  In this field, the statistics are saved across all/even/odd flips as
+%  well as all/up/down events for each gap size per fly and across flies.
+%  The final output WS with crossStats is autosaved to the genotype folder.
+%  
+%  This function also (by default) plots the crossing curve of the analyzed
+%  WS for All/Up/Down events and autosaves them to the genotype folder.
+%  
+%  If you're plotting something with 4 gaps, the x axis defaults to be from
+%  1.0 to 2.5 mm, otherwise it defaults to just enumerating the gaps.
 
 function WS = AnalyzeCrossStats(WS)
 
@@ -231,8 +238,14 @@ AllAllVecAllCrossOverAllGapEventRate        = AllAllVecAllCrossEvents./AllAllVec
 AllAllVecProperCrossOverAllCrossRate        = AllAllVecProperCross./AllAllVecAllCrossEvents;
 AllAllVecProperCrossOverAllGapEventRate     = AllAllVecProperCross./AllAllVecAllGapEvents;
 
-% The sizes of the gaps in the experiments (in mm)
-gapSizes = 1:0.5:2.5;
+% The sizes of the gaps in the experiments (in mm) for standard experiments
+if NumGaps == 4
+    gapSizes = 1:0.5:2.5;
+% In the event of experiments that don't have 4 gaps, switch from mm to
+% just gap number
+else
+    gapSizes = 1:NumGaps;
+end
 
 % Now we want to filter out any flies that didn't perform at least 10 gap
 % events at every width
@@ -465,11 +478,19 @@ errorbar(gapSizes,mean(AllAllVecProperCrossOverAllGapEventRate,1),AllAllVecPrope
 hold off
 
 title([WS.directoryName, ' (', WS.genotype, ')'], 'Interpreter', 'none')
-xlabel('Gap Width (mm)');
-ylabel('Proper Cross Events / All Gap Events');
-xlim([0.8,2.7]);
-xticks(1:0.5:2.5);
+% For standard gap crossing experiments (4 gaps going from 1.0 - 2.5 mm)
+if NumGaps == 4
+    xlim([0.8,2.7]);
+    xticks(1:0.5:2.5);
+    xlabel('Gap Width (mm)');
+% For non-standard gap crossing experiments (something other than 4 gaps)
+else
+    xlim([0,NumGaps+1]);
+    xticks(1:NumGaps);
+    xlabel('Gap Number');
+end
 ylim([0,1]);
+ylabel('Proper Cross Events / All Gap Events');
 legend('Up','Down','All');
        
 % Clear the variables we don't care to save to WS

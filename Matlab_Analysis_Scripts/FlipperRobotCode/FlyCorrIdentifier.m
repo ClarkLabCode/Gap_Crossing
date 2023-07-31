@@ -1,5 +1,9 @@
-% Function that uses the previously found corridor masks to identify which
-% corridor each fly is in inside of the finalStats struct
+% FLYCORRIDENTIFIER Determines which compartment each fly is in at each time
+%
+%  Figures out which corridor each row of finalStats is in and appends it
+%  to the structure. This is done by using the corridor masks produced by
+%  SkeletonToCorrMasks. For a reminder of how a corridor is defined, 
+%  please refer to the diagram in the README.
 
 function WS = FlyCorrIdentifier(WS)
 

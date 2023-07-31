@@ -1,22 +1,26 @@
-% Adds meta data info to the struct
+% METADATAADDER Adds meta data info to the WS struct being saved
+%
+%  This function is what saves things such as the date of the experiment,
+%  the time of the experiment, the temperature it was run at, what number
+%  experiment it was for a given genotype, etc.
 
 % Example inputs:
 
 % genotype = 'IsoD1';
-% dateAcq = '12-29-20';
-% timeAcq = '16-35-12';
-% eclosionDate = '12-25-20';
+% dateAcq = '06-26-22';
+% timeAcq = '11-51-52';
+% eclosionDate = '06-25-22';
 % timeZone = 15;
 % notes = ' ';
-% flipRate = 15 (in seconds);
-% expLength = 60 (in mins);
-% temp = 30 (in C);
+% flipRate = 8 (in seconds);
+% expLength = 30 (in mins);
+% temp = 34 (in C);
 % CassetteID = 1;
-% directoryName = 'IsoD1_BC';
+% directoryName = 'IsoD1_lighting_top_bottom';
 % sizeThreshCutOff = 100;
 % indPosFrameBuffer = 5;
 % ExpRepNum = 1;
-% inputFileName = '2020-12-29 16-35-22_IsoD1_30C_MF.mov';
+% inputFileName = '2022-06-26 11-51-52_IsoD1_lighting_top_bottom_Exp1.mov';
 
 function WS = MetaDataAdder(WS)
 

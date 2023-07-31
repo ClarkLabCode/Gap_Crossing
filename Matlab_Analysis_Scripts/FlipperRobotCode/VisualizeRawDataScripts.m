@@ -1,3 +1,14 @@
+% VISUALIZERAWDATASCRIPTS Script to generate many visualizations of raw data
+%  
+%  Currently plots things such as trajectory in the cassette, distribution
+%  of velocities as a function of y position, angular velocities vs y, etc.
+%
+%  Some of the scripts do this for an individual fly, while others do it by
+%  randomly subsampling data from all flies.
+% 
+%  This script can be used as a template for plotting other visualizations
+%  of the raw data.
+
 %% Setting up stuff for plotting examples later
 
 % All the skeletons look basically the same after alignment, so just take

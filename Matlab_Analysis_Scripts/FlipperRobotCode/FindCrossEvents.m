@@ -1,6 +1,11 @@
-% Finds all "crossings," retreats, and circumventions per fly per gap width
-% and adds them to FlipBinnedFlyStruct in the form of new fields
-
+% FINDCROSSEVENTS Identifies all crossing events and adds fields to FlipBinnedFlyStruct
+%
+%  Finds all crossings (glass and proper are combined at this stage of
+%  analysis until the NN is used to classify the two), retreats, and 
+%  circumventions per fly per gap width and adds them to FlipBinnedFlyStruct 
+%  in the form of new fields. This is done by looking for the appropriate
+%  compartment transitions for each fly. For a reminder of how a compartment 
+%  is defined, please refer to the diagram in the README.
 
 function WS = FindCrossEvents(WS)
 

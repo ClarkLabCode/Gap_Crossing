@@ -1,5 +1,9 @@
-% Figures out which compartment each row of finalStats is in and appends it
-% to the structure
+% FLYCOMPIDENTIFIER Determines which compartment each fly is in at each time
+%
+%  Figures out which compartment each row of finalStats is in and appends it
+%  to the structure. This is done by using the compartment masks produced by
+%  SkeletonToCompMasks. For a reminder of how a compartment is defined, 
+%  please refer to the diagram in the README.
 
 function WS = FlyCompIdentifier(WS)
 

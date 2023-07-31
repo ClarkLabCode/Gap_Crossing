@@ -1,4 +1,9 @@
-% Uses the user-made skeleton to create the mask for the corridors
+% SKELETONTOCORRMASKS Takes user-made skeleton to generate corridor masks
+% 
+%  Once the user has made the skeleton (CorridorSkeletonFinder), this
+%  function takes the labeled skeleton points and computes the mask for
+%  each individual corridor. For a reminder of how a corridor is defined,
+%  please refer to the diagram in the README.
 
 function WS = SkeletonToCorrMasks(WS)
 

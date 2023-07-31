@@ -1,4 +1,8 @@
-% Deletes data within flips where flies spend any time fully stationary
+% ZAPSTATIONARYFLIPS Replaces inactive fly flips with 0s
+%
+%  This function checks for flips in which flies were inactive and replaces
+%  the minimal (if any) data saved for that fly in that flip with a singular 
+%  0 so that it is easy to identify in the downstream analysis.
 
 function WS = ZapStationaryFlips(WS)
 

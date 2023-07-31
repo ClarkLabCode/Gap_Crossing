@@ -1,6 +1,13 @@
-% Takes the finalFlyStruct and rearranges the data such that it separates
-% out behavior data between flips to make it easier to manage
-% Also computes derivatives of previously found values (e.g., VelX & VelY)
+% FLIPBINNER Creates FlipBinnedFlyStruct from finalFlyStruct
+%
+%  Takes the finalFlyStruct and rearranges the data such that it separates
+%  out behavior data between flips to make it easier to manage and more
+%  clearly organized. This is the main struct that gets used within WS for
+%  most of the downstream analysis and is usually the struct that is useful
+%  to look at when trying to figure out if there are any issues in your
+%  data.
+%
+%  Also computes derivatives of previously found values (e.g., VelX & VelY).
 
 function WS = FlipBinner(WS)
 

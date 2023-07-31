@@ -1,3 +1,20 @@
+% PREDICTONOFFGLASS Runs all crossing events through NN to predict glass/proper crossing
+%
+%  Uses the NN trained by Joseph and Baohua (netOnOffAmbig) to predict
+%  whether a crossing event was a glass crossing (On), proper crossing (Off),
+%  or ambiguous (Ambig). The output of the neural net is a probability
+%  assigned to each of the three possibilities (summing to 1). The reason
+%  the option of ambiguous is given to the NN is because it was found to
+%  increase its classification performance. See the ROC/AUC figures for
+%  reference on the relatively increase in performance.
+%
+%  The outputs of this function are later used by ClassifyOnOff to convert
+%  from three probabilities to just one label (glass or proper crossing).
+%  However, it is useful to break up the two steps in order to allow users
+%  to experiment with different classification thresholds (as was done to
+%  generate the ROC curve). The default threshold is 0.5. Further info can
+%  be found in the ClassifyOnOff function regarding this threshold.
+
 function WS = PredictOnOffGlass(WS)
 
 % Port in the relevant fields from WS

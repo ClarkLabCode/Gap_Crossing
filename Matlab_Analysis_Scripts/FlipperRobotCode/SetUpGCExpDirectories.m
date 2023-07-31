@@ -1,3 +1,18 @@
+% SETUPGCEXPDIRECTORIES Sets up all necessary subdirectories for saving data
+%
+%  Makes the necessary folders for progress to be saved at each checkpoint
+%  in FullGapCrossingAnalysis. These folders are:
+%    0_Raw_Videos
+%    1_Params_Entered
+%    2_Video_Processed
+%    3_Corridor_Skeleton_Made
+%    4_Neural_Net_Analyzed
+%    5_Fully_Analyzed
+%    Background_Frames
+%    Fly_Structure
+%    Plots
+
+
 function WS_names = SetUpGCExpDirectories(WS_all,LocalGCDirectoryPath)
 
 % Establish number of GC experiments

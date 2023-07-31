@@ -1,10 +1,16 @@
-% Function that gathers necessary info for gap crossing (GC) experiments
-% from user through assisted pop-up dialog boxes that try to parse
-% available information from the file names of GC videos 
-
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% | Assumes that the GC videos were recorded using OBS |
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% REQUESTUSERGCINPUTS Prompts user to fill in info for a gap crossing experiment
+%
+%  
+%  Gathers necessary info for gap crossing (GC) experiments from user 
+%  through assisted pop-up dialog boxes that try to parse available info
+%  from the file names of GC videos. The default parameters are auto
+%  populated in the pop-up dialog boxes but can be changed by the user.
+%
+%  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%  \                                                                /
+%   | Assumes that the gap crossing videos were recorded using OBS |
+%  /                                                                \
+%  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function WS_all = RequestUserGCInputs(NumGCExp, StandardAnalysis, LocalGCDirectoryPath)
 

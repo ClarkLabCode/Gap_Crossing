@@ -1,3 +1,10 @@
+% ANALYSISSTEPCHECK Checks the current step within the analysis pipeline
+% 
+%  This function is repeatedly called within FullGapCrossingAnalysis to
+%  determine what step comes next within the pipeline. It does this by
+%  checking the current analysis step, checking which other analysis steps
+%  have been run, and then updating the next analysis step accordingly.
+
 function [AnalysisStep, Next_WS_names, SkeletonMade] = AnalysisStepCheck(WS_names)
 
 % Create variables to track analysis step
