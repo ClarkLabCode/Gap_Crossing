@@ -9,8 +9,6 @@
 %  This script can be used as a template for plotting other visualizations
 %  of the raw data.
 
-%% Setting up stuff for plotting examples later
-
 % All the skeletons look basically the same after alignment, so just take
 % the first one
 SkelX = WS.FlipBinnedFlyStruct(1).IdData.AlignedSkeleton_x;
