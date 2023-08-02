@@ -51,34 +51,6 @@ IsoD1MatrixDownGCInFlip = NaN(maxFlips,numFlies,2);
 IsoD1MatrixDownCircInFlip = NaN(maxFlips,numFlies,2);
 IsoD1MatrixDownRetInFlip = NaN(maxFlips,numFlies,2);
 
-% % Go through and make an "AlignedTimeInFlip" field that matches the
-% % structure of all the aligned variables but just holds the time in the
-% % flip (in seconds)
-% for flyCounter = 1:numFlies
-%     % Do it for odd flips
-%     for oddFlipCounter = 1:length(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips)
-%         % Match the [] convention in the aligned data
-%         if length(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).FrameInFlip) == 1
-%             WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedTimeInFlip = [];
-%         % Convert from frames to seconds
-%         else
-%             WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedTimeInFlip = ...
-%                 WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).FrameInFlip/30;
-%         end
-%     end
-%     % Do it for even flips
-%     for evenFlipCounter = 1:length(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips)
-%         % Match the [] convention in the aligned data
-%         if length(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).FrameInFlip) == 1
-%             WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedTimeInFlip = [];
-%         % Convert from frames to seconds
-%         else
-%             WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedTimeInFlip = ...
-%                 WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).FrameInFlip/30;
-%         end
-%     end
-% end
-
 % Now fill in the matrices we initialized above with all the data we have
 for flyCounter = 1:numFlies
     % Do it for odd flips
