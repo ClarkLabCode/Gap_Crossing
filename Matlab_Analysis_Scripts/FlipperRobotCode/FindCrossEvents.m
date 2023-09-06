@@ -33,12 +33,12 @@ CircID = zeros(3,NumGaps,2);
 % Define the transition IDs for each event of interest (1 = For, 2 = Back)
 % Forward is defined as along the direction from smallest to largest gap
 for GapNumber = 1:NumGaps
-CrossID(:,GapNumber,1) = [Corrs(GapNumber), Gaps(GapNumber), Corrs(GapNumber+1)];
-CrossID(:,GapNumber,2) = [Corrs(GapNumber+1), Gaps(GapNumber), Corrs(GapNumber)];
-RetID(:,GapNumber,1) = [Corrs(GapNumber), Gaps(GapNumber), Corrs(GapNumber)];
-RetID(:,GapNumber,2) = [Corrs(GapNumber+1), Gaps(GapNumber), Corrs(GapNumber+1)];
-CircID(:,GapNumber,1) = [Corrs(GapNumber), Gaps(GapNumber), Wells(GapNumber)];
-CircID(:,GapNumber,2) = [Corrs(GapNumber+1), Gaps(GapNumber), Wells(GapNumber)];
+    CrossID(:,GapNumber,1) = [Corrs(GapNumber), Gaps(GapNumber), Corrs(GapNumber+1)];
+    CrossID(:,GapNumber,2) = [Corrs(GapNumber+1), Gaps(GapNumber), Corrs(GapNumber)];
+    RetID(:,GapNumber,1) = [Corrs(GapNumber), Gaps(GapNumber), Corrs(GapNumber)];
+    RetID(:,GapNumber,2) = [Corrs(GapNumber+1), Gaps(GapNumber), Corrs(GapNumber+1)];
+    CircID(:,GapNumber,1) = [Corrs(GapNumber), Gaps(GapNumber), Wells(GapNumber)];
+    CircID(:,GapNumber,2) = [Corrs(GapNumber+1), Gaps(GapNumber), Wells(GapNumber)];
 end
 
 % % % % % Create vectors to hold cross, ret, circ info for each fly per gap width

@@ -11,19 +11,23 @@
 
 %% Setting up stuff for plotting examples later
 
+% Grab FBFS from WS
+FBFS = WS.FlipBinnedFlyStruct;
+
 % All the skeletons look basically the same after alignment, so just take
 % the first one
-SkelX = WS.FlipBinnedFlyStruct(1).IdData.AlignedSkeleton_x;
-SkelY = WS.FlipBinnedFlyStruct(1).IdData.AlignedSkeleton_y;
+SkelX = FBFS(1).IdData.AlignedSkeleton_x;
+SkelY = FBFS(1).IdData.AlignedSkeleton_y;
 
 % Initialize some variables
 maxFlips = 0; % Variable for tracking total flips in experiment
-numFlies = length(WS.FlipBinnedFlyStruct);
+numFlies = length(FBFS);
+NumGaps = 4; % Everything written here only currently works for 4 gaps
 
 % Go through and see how many flips were in the experiments by taking the
 % largest number of flips from all flies
 for flyCounter = 1:numFlies
-    maxFlips = max([maxFlips, length(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips), length(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips)]);
+    maxFlips = max([maxFlips, length(FBFS(flyCounter).AlignedData.OddFlips), length(FBFS(flyCounter).AlignedData.EvenFlips)]);
 end
 
 % Set rng seed so we can replicate things later
@@ -41,143 +45,249 @@ IsoD1MatrixTheta = NaN(minFramesInFlip,maxFlips,numFlies,2);
 IsoD1MatrixVelX = NaN(minFramesInFlip,maxFlips,numFlies,2);
 IsoD1MatrixVelY = NaN(minFramesInFlip,maxFlips,numFlies,2);
 IsoD1MatrixVelTheta = NaN(minFramesInFlip,maxFlips,numFlies,2);
-% 3D matrices with following structure: (flip #, fly#, odd/even flip)
-IsoD1MatrixUpPCInFlip = NaN(maxFlips,numFlies,2);
-IsoD1MatrixUpGCInFlip = NaN(maxFlips,numFlies,2);
-IsoD1MatrixUpCircInFlip = NaN(maxFlips,numFlies,2);
-IsoD1MatrixUpRetInFlip = NaN(maxFlips,numFlies,2);
-IsoD1MatrixDownPCInFlip = NaN(maxFlips,numFlies,2);
-IsoD1MatrixDownGCInFlip = NaN(maxFlips,numFlies,2);
-IsoD1MatrixDownCircInFlip = NaN(maxFlips,numFlies,2);
-IsoD1MatrixDownRetInFlip = NaN(maxFlips,numFlies,2);
 
 % Now fill in the matrices we initialized above with all the data we have
 for flyCounter = 1:numFlies
     % Do it for odd flips
-    for oddFlipCounter = 1:length(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips)
+    for oddFlipCounter = 1:length(FBFS(flyCounter).AlignedData.OddFlips)
         % We're only plotting the data from frames with at least as many
         % frames as minFramesInFlip, so don't change the NaN if it doesn't
         % meet that criteria
-        if length(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).FrameInFlip) >= minFramesInFlip+1
+        if length(FBFS(flyCounter).AlignedData.OddFlips(oddFlipCounter).FrameInFlip) >= minFramesInFlip+1
             % Grab all the locomotion data
             IsoD1MatrixTime(:,oddFlipCounter,flyCounter,1) = ...
-                WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedTimeInFlip(1:minFramesInFlip);
+                FBFS(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedTimeInFlip(1:minFramesInFlip);
             IsoD1MatrixX(:,oddFlipCounter,flyCounter,1) = ...
-                WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedFoldedCentroidX(1:minFramesInFlip);
+                FBFS(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedFoldedCentroidX(1:minFramesInFlip);
             IsoD1MatrixY(:,oddFlipCounter,flyCounter,1) = ...
-                WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedCentroidY(1:minFramesInFlip);
+                FBFS(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedCentroidY(1:minFramesInFlip);
             IsoD1MatrixTheta(:,oddFlipCounter,flyCounter,1) = ...
-                WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedFoldedVerticalTheta(1:minFramesInFlip);
+                FBFS(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedFoldedVerticalTheta(1:minFramesInFlip);
             IsoD1MatrixVelX(:,oddFlipCounter,flyCounter,1) = ...
-                WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedFoldedVelX(1:minFramesInFlip);
+                FBFS(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedFoldedVelX(1:minFramesInFlip);
             IsoD1MatrixVelY(:,oddFlipCounter,flyCounter,1) = ...
-                WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedFoldedVelY(1:minFramesInFlip);
+                FBFS(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedFoldedVelY(1:minFramesInFlip);
             IsoD1MatrixVelTheta(:,oddFlipCounter,flyCounter,1) = ...
-                WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedFoldedVelTheta(1:minFramesInFlip);
-            % Grab all the info about what crossing events happened in flip
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).UpProperCrosses) > 0
-                IsoD1MatrixUpPCInFlip(oddFlipCounter,flyCounter,1) = 1;
-            else
-                IsoD1MatrixUpPCInFlip(oddFlipCounter,flyCounter,1) = 0;
-            end
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).UpGlassCrosses) > 0
-                IsoD1MatrixUpGCInFlip(oddFlipCounter,flyCounter,1) = 1;
-            else
-                IsoD1MatrixUpGCInFlip(oddFlipCounter,flyCounter,1) = 0;
-            end
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).UpCircumventions) > 0
-                IsoD1MatrixUpCircInFlip(oddFlipCounter,flyCounter,1) = 1;
-            else
-                IsoD1MatrixUpCircInFlip(oddFlipCounter,flyCounter,1) = 0;
-            end
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).UpRetreats) > 0
-                IsoD1MatrixUpRetInFlip(oddFlipCounter,flyCounter,1) = 1;
-            else
-                IsoD1MatrixUpRetInFlip(oddFlipCounter,flyCounter,1) = 0;
-            end
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).DownProperCrosses) > 0
-                IsoD1MatrixDownPCInFlip(oddFlipCounter,flyCounter,1) = 1;
-            else
-                IsoD1MatrixDownPCInFlip(oddFlipCounter,flyCounter,1) = 0;
-            end
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).DownGlassCrosses) > 0
-                IsoD1MatrixDownGCInFlip(oddFlipCounter,flyCounter,1) = 1;
-            else
-                IsoD1MatrixDownGCInFlip(oddFlipCounter,flyCounter,1) = 0;
-            end
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).DownCircumventions) > 0
-                IsoD1MatrixDownCircInFlip(oddFlipCounter,flyCounter,1) = 1;
-            else
-                IsoD1MatrixDownCircInFlip(oddFlipCounter,flyCounter,1) = 0;
-            end
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.OddFlips(oddFlipCounter).DownRetreats) > 0
-                IsoD1MatrixDownRetInFlip(oddFlipCounter,flyCounter,1) = 1;
-            else
-                IsoD1MatrixDownRetInFlip(oddFlipCounter,flyCounter,1) = 0;
-            end
-
+                FBFS(flyCounter).AlignedData.OddFlips(oddFlipCounter).AlignedFoldedVelTheta(1:minFramesInFlip);
         end
     end
     % Do it for even flips
-    for evenFlipCounter = 1:length(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips)
+    for evenFlipCounter = 1:length(FBFS(flyCounter).AlignedData.EvenFlips)
         % We're only plotting the data from frames with at least as many
         % frames as minFramesInFlip, so don't change the NaN if it doesn't
         % meet that criteria
-        if length(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).FrameInFlip) >= minFramesInFlip+1
+        if length(FBFS(flyCounter).AlignedData.EvenFlips(evenFlipCounter).FrameInFlip) >= minFramesInFlip+1
             IsoD1MatrixTime(:,evenFlipCounter,flyCounter,2) = ...
-                WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedTimeInFlip(1:minFramesInFlip);
+                FBFS(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedTimeInFlip(1:minFramesInFlip);
             IsoD1MatrixX(:,evenFlipCounter,flyCounter,2) = ...
-                WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedFoldedCentroidX(1:minFramesInFlip);
+                FBFS(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedFoldedCentroidX(1:minFramesInFlip);
             IsoD1MatrixY(:,evenFlipCounter,flyCounter,2) = ...
-                WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedCentroidY(1:minFramesInFlip);
+                FBFS(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedCentroidY(1:minFramesInFlip);
             IsoD1MatrixTheta(:,evenFlipCounter,flyCounter,2) = ...
-                WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedFoldedVerticalTheta(1:minFramesInFlip);
+                FBFS(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedFoldedVerticalTheta(1:minFramesInFlip);
             IsoD1MatrixVelX(:,evenFlipCounter,flyCounter,2) = ...
-                WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedFoldedVelX(1:minFramesInFlip);
+                FBFS(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedFoldedVelX(1:minFramesInFlip);
             IsoD1MatrixVelY(:,evenFlipCounter,flyCounter,2) = ...
-                WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedFoldedVelY(1:minFramesInFlip);
+                FBFS(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedFoldedVelY(1:minFramesInFlip);
             IsoD1MatrixVelTheta(:,evenFlipCounter,flyCounter,2) = ...
-                WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedFoldedVelTheta(1:minFramesInFlip);
-            % Grab all the info about what crossing events happened in flip
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).UpProperCrosses) > 0
-                IsoD1MatrixUpPCInFlip(evenFlipCounter,flyCounter,2) = 1;
-            else
-                IsoD1MatrixUpPCInFlip(evenFlipCounter,flyCounter,2) = 0;
-            end
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).UpGlassCrosses) > 0
-                IsoD1MatrixUpGCInFlip(evenFlipCounter,flyCounter,2) = 1;
-            else
-                IsoD1MatrixUpGCInFlip(evenFlipCounter,flyCounter,2) = 0;
-            end
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).UpCircumventions) > 0
-                IsoD1MatrixUpCircInFlip(evenFlipCounter,flyCounter,2) = 1;
-            else
-                IsoD1MatrixUpCircInFlip(evenFlipCounter,flyCounter,2) = 0;
-            end
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).UpRetreats) > 0
-                IsoD1MatrixUpRetInFlip(evenFlipCounter,flyCounter,2) = 1;
-            else
-                IsoD1MatrixUpRetInFlip(evenFlipCounter,flyCounter,2) = 0;
-            end
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).DownProperCrosses) > 0
-                IsoD1MatrixDownPCInFlip(evenFlipCounter,flyCounter,2) = 1;
-            else
-                IsoD1MatrixDownPCInFlip(evenFlipCounter,flyCounter,2) = 0;
-            end
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).DownGlassCrosses) > 0
-                IsoD1MatrixDownGCInFlip(evenFlipCounter,flyCounter,2) = 1;
-            else
-                IsoD1MatrixDownGCInFlip(evenFlipCounter,flyCounter,2) = 0;
-            end
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).DownCircumventions) > 0
-                IsoD1MatrixDownCircInFlip(evenFlipCounter,flyCounter,2) = 1;
-            else
-                IsoD1MatrixDownCircInFlip(evenFlipCounter,flyCounter,2) = 0;
-            end
-            if sum(WS.FlipBinnedFlyStruct(flyCounter).AlignedData.EvenFlips(evenFlipCounter).DownRetreats) > 0
-                IsoD1MatrixDownRetInFlip(evenFlipCounter,flyCounter,2) = 1;
-            else
-                IsoD1MatrixDownRetInFlip(evenFlipCounter,flyCounter,2) = 0;
+                FBFS(flyCounter).AlignedData.EvenFlips(evenFlipCounter).AlignedFoldedVelTheta(1:minFramesInFlip);
+        end
+    end
+end
+
+% Now initialize a bunch of things to use for identifying what behavior
+% took place at each of the gap events. Much of this code is copied from
+% the algorithm and method used in FindCrossEvents.m
+% This part may take many read throughs to fully follow/remember what's
+% being done, sorry about that... I've done my best to write out all the
+% details in the comments but am happy to answer questions about this at a
+% later time if the comments are insufficient (from Joe)
+
+% Initialize 6D behavior matrix with following structure:
+% (Start/End Frame #, flip #, fly #, odd/even flip, gap #, behavior #)
+% Behavior #: 1 = Proper Crossing, 2 = Glass Crossing, 3 = Circum, 4 = Retreat
+% Note that the first dimension is size 10*2 to allow for up to 10 occurrences 
+% of any singular behavior within any flip. The structuring within the 
+% 20 is [start occ1, end occ1, start occ2, end occ2, ..., start occ10, end occ10]
+IsoD1MatrixBehav = NaN(10*2,maxFlips,numFlies,2,NumGaps,4);
+
+% Make the vectors that hold the appropriate compartment numbers for each
+% type of region of interest (see corridor diagram for compartment labels)
+Gaps = 2*(1:NumGaps);
+Corrs = 2*(0:NumGaps)+1;
+Wells = (2*NumGaps + 1) + (1:NumGaps);
+
+% 1st dimension is CompID, 2nd is GapNumber, 3rd is For/Back
+% Forward is defined as along the direction from smallest to largest gap
+CrossID = zeros(3,NumGaps,2);
+RetID = zeros(3,NumGaps,2);
+CircID = zeros(3,NumGaps,2);
+
+% Define the transition IDs for each event of interest (1 = For, 2 = Back)
+% Forward is defined as along the direction from smallest to largest gap
+for GapNumber = 1:NumGaps
+    CrossID(:,GapNumber,1) = [Corrs(GapNumber), Gaps(GapNumber), Corrs(GapNumber+1)];
+    CrossID(:,GapNumber,2) = [Corrs(GapNumber+1), Gaps(GapNumber), Corrs(GapNumber)];
+    RetID(:,GapNumber,1) = [Corrs(GapNumber), Gaps(GapNumber), Corrs(GapNumber)];
+    RetID(:,GapNumber,2) = [Corrs(GapNumber+1), Gaps(GapNumber), Corrs(GapNumber+1)];
+    CircID(:,GapNumber,1) = [Corrs(GapNumber), Gaps(GapNumber), Wells(GapNumber)];
+    CircID(:,GapNumber,2) = [Corrs(GapNumber+1), Gaps(GapNumber), Wells(GapNumber)];
+end
+
+trackerVar = 0;
+
+% Go through every flip of every fly and grab the start and end frames of
+% each gap event by looking through UniqCompID and UniqCompIDIndex with the
+% help of the above defined transition IDs
+for oddEven = 1:2
+    for flyCounter = 1:numFlies
+        if oddEven == 1
+            % When doing the odd loop, grab the OddFlips data
+            FlipsData = FBFS(flyCounter).AlignedData.OddFlips;
+        else
+            % When doing the even loop, grab the EvenFlips data
+            FlipsData = FBFS(flyCounter).AlignedData.EvenFlips;
+        end
+        for flipCounter = 1:length(FlipsData)
+            for GapNumber = 1:NumGaps
+                % Continually update UniqCompIDIndex and UniqCompID
+                % throughout the loop so that we don't have to dot index as
+                % many things on each line
+                UniqCompIDIndex = FlipsData(flipCounter).UniqCompIDIndex;
+                UniqCompID = FlipsData(flipCounter).UniqCompID;
+                % Grab the frame(s) during which cross event(s) starts
+                % This is found by computing the last frame in which the
+                % fly leaves the corridor and enters the gap (hence the +1
+                % within the index of UniqCompIDIndex followed by the -1
+                % outside of it). 
+                % Note that this may return several frames because there
+                % may be several occurrences of a cross event within a
+                % singular flip.
+                startFrame = ...
+                    UniqCompIDIndex(strfind(UniqCompID, CrossID(:,GapNumber,oddEven)')+1)-1;
+                % Grab the frame(s) during which cross event(s) ends
+                % This is found by computing the first frame in which the
+                % fly leaves the gap and enters the corridor (hence the +2
+                % within the index of UniqCompIDIndex).
+                % Again, note that this may return several frames because
+                % there may be several occurrences of a cross event within a
+                % singular flip.
+                endFrame = ...
+                    UniqCompIDIndex(strfind(UniqCompID, CrossID(:,GapNumber,oddEven)')+2);
+                % Assuming there are any occurences at all of crossing
+                % events within the flip, go through each occurrence
+                if length(startFrame) > 0
+                    % endFrame must always be at most the last frame we are
+                    % grabbing from each flip, so use the min function to
+                    % ensure this.
+                    % Note that this must be done within the if statement
+                    % because min will override the NaNs otherwise.
+                    endFrame = min(endFrame,minFramesInFlip);
+                    for occurrenceCounter = 1:length(startFrame)
+                        % There's a further complication when grabbing cross events
+                        % because we must determine whether they were a proper or a
+                        % glass cross. To do this, check the renormalized NN output
+                        % and assign the event as a proper or glass cross accordingly
+                        % If NN output is < 0.5, it's a proper crossing
+                        if FlipsData(flipCounter).RenormUpGlassCrossProb(GapNumber).GapID(occurrenceCounter) < 0.5
+                            % Fill in start frame(s) for PC
+                            IsoD1MatrixBehav(2*(occurrenceCounter-1)+1,flipCounter,flyCounter,oddEven,GapNumber,1) = ...
+                                startFrame(occurrenceCounter);
+                            % Fill in end frame(s) for PC
+                            IsoD1MatrixBehav(2*(occurrenceCounter-1)+2,flipCounter,flyCounter,oddEven,GapNumber,1) = ...
+                                endFrame(occurrenceCounter);
+                        % If NN output is >= 0.5, it's a glass crossing
+                        else
+                            % Fill in start frame(s) for GC
+                            IsoD1MatrixBehav(2*(occurrenceCounter-1)+1,flipCounter,flyCounter,oddEven,GapNumber,2) = ...
+                                startFrame(occurrenceCounter);
+                            % Fill in end frame(s) for GC
+                            IsoD1MatrixBehav(2*(occurrenceCounter-1)+2,flipCounter,flyCounter,oddEven,GapNumber,2) = ...
+                                endFrame(occurrenceCounter);
+                        end
+                    end
+                end
+                % Grab the frame(s) during which circum event(s) starts
+                % This is found by computing the last frame in which the
+                % fly leaves the corridor and enters the gap (hence the +1
+                % within the index of UniqCompIDIndex followed by the -1
+                % outside of it). 
+                % Note that this may return several frames because there
+                % may be several occurrences of a circum event within a
+                % singular flip.
+                startFrame = ...
+                    UniqCompIDIndex(strfind(UniqCompID, CircID(:,GapNumber,oddEven)')+1)-1;
+                % Grab the frame(s) during which circum event(s) ends
+                % This is found by computing the first frame in which the
+                % fly leaves the gap for the second time (hence the +4
+                % within the index of UniqCompIDIndex).
+                % Again, note that this may return several frames because
+                % there may be several occurrences of a circum event within a
+                % singular flip.
+                % As one further subtlty, note the need for the min
+                % function within UniqCompIDIndex because it is possible
+                % for the final frame of a circumvention to take place in a
+                % frame beyond the final frame of UniqCompID, so in those
+                % (rare) cases, we just take the final frame from
+                % UniqCompID to be our final frame rather than generate an
+                % error.
+                endFrame = ...
+                    UniqCompIDIndex(min(strfind(UniqCompID, CircID(:,GapNumber,oddEven)')+4,length(UniqCompID)));
+                % Assuming there are any occurences at all of circum
+                % events within the flip, go through each occurrence
+                if length(startFrame) > 0
+                    % endFrame must always be at most the last frame we are
+                    % grabbing from each flip, so use the min function to
+                    % ensure this.
+                    % Note that this must be done within the if statement
+                    % because min will override the NaNs otherwise.
+                    endFrame = min(endFrame,minFramesInFlip);
+                    for occurrenceCounter = 1:length(startFrame)
+                        % Fill in start frame(s) for Circ
+                        IsoD1MatrixBehav(2*(occurrenceCounter-1)+1,flipCounter,flyCounter,oddEven,GapNumber,3) = ...
+                            startFrame(occurrenceCounter);
+                        % Fill in end frame(s) for Circ
+                        IsoD1MatrixBehav(2*(occurrenceCounter-1)+2,flipCounter,flyCounter,oddEven,GapNumber,3) = ...
+                            endFrame(occurrenceCounter);
+                    end
+                end
+                % Grab the frame(s) during which ret event(s) starts
+                % This is found by computing the last frame in which the
+                % fly leaves the corridor and enters the gap (hence the +1
+                % within the index of UniqCompIDIndex followed by the -1
+                % outside of it). 
+                % Note that this may return several frames because there
+                % may be several occurrences of a ret event within a
+                % singular flip.
+                startFrame = ...
+                    UniqCompIDIndex(strfind(UniqCompID, RetID(:,GapNumber,oddEven)')+1)-1;
+                % Grab the frame(s) during which ret event(s) ends
+                % This is found by computing the first frame in which the
+                % fly leaves the gap and enters the corridor (hence the +2
+                % within the index of UniqCompIDIndex).
+                % Again, note that this may return several frames because
+                % there may be several occurrences of a ret event within a
+                % singular flip.
+                endFrame = ...
+                    UniqCompIDIndex(strfind(UniqCompID, RetID(:,GapNumber,oddEven)')+2);
+                % Assuming there are any occurences at all of ret
+                % events within the flip, go through each occurrence
+                if length(startFrame) > 0
+                    % endFrame must always be at most the last frame we are
+                    % grabbing from each flip, so use the min function to
+                    % ensure this.
+                    % Note that this must be done within the if statement
+                    % because min will override the NaNs otherwise.
+                    endFrame = min(endFrame,minFramesInFlip);
+                    for occurrenceCounter = 1:length(startFrame)
+                        % Fill in start frame(s) for Ret
+                        IsoD1MatrixBehav(2*(occurrenceCounter-1)+1,flipCounter,flyCounter,oddEven,GapNumber,4) = ...
+                            startFrame(occurrenceCounter);
+                        % Fill in end frame(s) for Ret
+                        IsoD1MatrixBehav(2*(occurrenceCounter-1)+2,flipCounter,flyCounter,oddEven,GapNumber,4) = ...
+                            endFrame(occurrenceCounter);
+                    end
+                end
             end
         end
     end
@@ -459,3 +569,165 @@ uistack(a,'top');
 hold off
 xlabel('Angular Speed (degrees/sec)');
 ylabel('Y Position (mm)');
+
+%% Doing a bunch of stuff down here with filtering by specific behaviors
+dimSizes = size(IsoD1MatrixX);
+ReshapedIsoD1MatrixX = zeros(dimSizes(1),dimSizes(2)*dimSizes(3),dimSizes(4));
+ReshapedIsoD1MatrixY = zeros(dimSizes(1),dimSizes(2)*dimSizes(3),dimSizes(4));
+ReshapedIsoD1MatrixVelY = zeros(dimSizes(1),dimSizes(2)*dimSizes(3),dimSizes(4));
+ReshapedIsoD1MatrixTime = zeros(dimSizes(1),dimSizes(2)*dimSizes(3),dimSizes(4));
+ReshapedIsoD1MatrixVelTheta = zeros(dimSizes(1),dimSizes(2)*dimSizes(3),dimSizes(4));
+for i = 1:dimSizes(1)
+    for k = 1:dimSizes(3)
+        for j = 1:dimSizes(2)
+            for m = 1:dimSizes(4)
+                ReshapedIsoD1MatrixX(i,(k-1)*dimSizes(2)+j,m) = ...
+                    IsoD1MatrixX(i,j,k,m);
+                ReshapedIsoD1MatrixY(i,(k-1)*dimSizes(2)+j,m) = ...
+                    IsoD1MatrixX(i,j,k,m);
+                ReshapedIsoD1MatrixVelY(i,(k-1)*dimSizes(2)+j,m) = ...
+                    IsoD1MatrixVelY(i,j,k,m);
+                ReshapedIsoD1MatrixTime(i,(k-1)*dimSizes(2)+j,m) = ...
+                    IsoD1MatrixTime(i,j,k,m);
+                ReshapedIsoD1MatrixVelTheta(i,(k-1)*dimSizes(2)+j,m) = ...
+                    IsoD1MatrixVelTheta(i,j,k,m);
+            end
+        end
+    end
+end
+
+dimSizesBehav = size(IsoD1MatrixBehav);
+ReshapedIsoD1MatrixBehav = ...
+    zeros(dimSizesBehav(1),dimSizesBehav(2)*dimSizesBehav(3),dimSizesBehav(4),dimSizesBehav(5),dimSizesBehav(6));
+for i = 1:dimSizesBehav(1)
+    for k = 1:dimSizesBehav(3)
+        for j = 1:dimSizesBehav(2)
+            for m = 1:dimSizesBehav(4)
+                for n = 1:dimSizesBehav(5)
+                    for o = 1:dimSizesBehav(6)
+                        ReshapedIsoD1MatrixBehav(i,(k-1)*dimSizesBehav(2)+j,m,n,o) = ...
+                            IsoD1MatrixBehav(i,j,k,m,n,o);
+                    end
+                end
+            end
+        end
+    end
+end
+
+
+for BehavNum = 1:4
+
+% figure
+
+
+IsoD1MatrixIndexing = false(size(IsoD1MatrixX));
+
+for chosenFlyNum = 1:28
+
+for GapNum = 1:4
+
+
+    for flyCounter = 1:numFlies
+        for flipCounter = 1:maxFlips
+            if ~isnan(IsoD1MatrixBehav(1,flipCounter,flyCounter,oddEven,GapNum,BehavNum))
+                IsoD1MatrixIndexing(IsoD1MatrixBehav(1,flipCounter,flyCounter,oddEven,GapNum,BehavNum):...
+                                    IsoD1MatrixBehav(2,flipCounter,flyCounter,oddEven,GapNum,BehavNum),...
+                                    flipCounter,flyCounter,oddEven) = 1;
+            end
+        end
+    end
+
+end
+end
+
+    FilteredIsoD1Time = IsoD1MatrixTime.*IsoD1MatrixIndexing;
+    FilteredIsoD1TimePerm = FilteredIsoD1Time;
+    FilteredIsoD1Time(FilteredIsoD1TimePerm == 0) = NaN;
+    FilteredIsoD1X = IsoD1MatrixX.*IsoD1MatrixIndexing;
+    FilteredIsoD1X(FilteredIsoD1TimePerm == 0) = NaN;
+    FilteredIsoD1Y = IsoD1MatrixY.*IsoD1MatrixIndexing;
+    FilteredIsoD1Y(FilteredIsoD1TimePerm == 0) = NaN;
+    FilteredIsoD1VelY = IsoD1MatrixVelY.*IsoD1MatrixIndexing;
+    FilteredIsoD1VelY(FilteredIsoD1TimePerm == 0) = NaN;
+    FilteredIsoD1VelTheta = IsoD1MatrixVelTheta.*IsoD1MatrixIndexing;
+    FilteredIsoD1VelTheta(FilteredIsoD1TimePerm == 0) = NaN;
+
+    % IsoD1MatrixIndexing = false(size(ReshapedIsoD1MatrixX));
+    % 
+    % for counter = 1:(dimSizesBehav(2)*dimSizesBehav(3))
+    %     if ~isnan(ReshapedIsoD1MatrixBehav(1,counter,oddEven,GapNum,BehavNum))
+    %         IsoD1MatrixIndexing(ReshapedIsoD1MatrixBehav(1,counter,oddEven,GapNum,BehavNum):...
+    %                             ReshapedIsoD1MatrixBehav(2,counter,oddEven,GapNum,BehavNum),...
+    %                             counter,oddEven) = 1;
+    %     end
+    % end
+    % 
+    % FilteredIsoD1X = ReshapedIsoD1MatrixX.*IsoD1MatrixIndexing;
+    % FilteredIsoD1X(FilteredIsoD1X == 0) = NaN;
+    % FilteredIsoD1Y = ReshapedIsoD1MatrixY.*IsoD1MatrixIndexing;
+    % FilteredIsoD1Y(FilteredIsoD1Y == 0) = NaN;
+
+% for chosenFlyNum = 1:28
+%     hold on
+%     % Example of how to plot all odd/even flips of a given fly
+%     % For odd flips, set oddEven to 1. For even flips, set oddEven to 2.
+%     % chosenFlyNum = 1;
+%     oddEven = 1;
+%     plot(FilteredIsoD1X(:,:,chosenFlyNum,oddEven),...
+%     FilteredIsoD1Y(:,:,chosenFlyNum,oddEven),...
+%     'Color',[0.7,0.7,0.7])
+%     pbaspect([1080 1920 1])
+%     % Example of how to overlay the gap locations in the plots
+%     xl = [0,8];
+%     yl = ylim;
+%     for i = [1,2,5,6,9,10,13,14,17,18]
+%         plot(xl(1):(xl(2)-xl(1))/10:xl(2),SkelY(i,oddEven)*ones(11,1),'k--')
+%     end
+%     plot(zeros(11,1),yl(1):(yl(2)-yl(1))/10:yl(2),'k--')
+%     title('Trajectory of all flips of one fly','Interpreter','latex')
+%     xlabel('X position (mm)')
+%     ylabel('Y position (mm)')
+%     hold off
+% end
+
+% Plot Y vs VelY in a histogram for all flies
+figure
+numBins = 200;
+oddEven = 1;
+histX = reshape([FilteredIsoD1VelTheta(:,:,:,oddEven)],[],1);
+histX = histX(~isnan(histX));
+histY = reshape([FilteredIsoD1Y(:,:,:,oddEven)],[],1);
+histY = histY(~isnan(histY));
+XBinLim = 2500;
+YBinLim = 24;
+histogram2(histX,histY,-XBinLim:(2*XBinLim/numBins):XBinLim,-YBinLim:(2*YBinLim/numBins):YBinLim,'DisplayStyle','tile','LineStyle','none','ShowEmptyBins','on');
+% histogram2(histX,histY,0:(XBinLim/numBins):XBinLim,-YBinLim:(2*YBinLim/numBins):YBinLim,'DisplayStyle','tile','LineStyle','none','ShowEmptyBins','on');
+set(gca,'ColorScale','log');
+% pbaspect([1080 1920 1])
+colorbar;
+grid off
+% Example of how to overlay the gap locations in the plots
+xl = xlim;
+yl = ylim;
+hold on
+for i = [1,2,5,6,9,10,13,14,17,18]
+    a = plot(xl(1):(xl(2)-xl(1))/10:xl(2),SkelY(i,oddEven)*ones(11,1),'k--');
+    uistack(a,'top');
+end
+a = plot(zeros(11,1),yl(1):(yl(2)-yl(1))/10:yl(2),'k--');
+uistack(a,'top');
+hold off
+xlabel('Angular Velocity (deg/sec)');
+ylabel('Y Position (mm)');
+switch BehavNum
+    case 1
+        title('Proper Crossing')
+    case 2
+        title('Glass Crossing')
+    case 3
+        title('Circumvention')
+    case 4
+        title('Retreat')
+end
+
+end
