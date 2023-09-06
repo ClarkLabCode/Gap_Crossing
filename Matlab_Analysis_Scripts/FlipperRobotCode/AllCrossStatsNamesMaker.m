@@ -35,6 +35,7 @@ AllCrossStatsNames{19,1} = 'IsoD1, two eyes painted';
 AllCrossStatsNames{20,1} = 'IsoD1 (second screen)';
 AllCrossStatsNames{21,1} = 'IsoD1, dark (second screen)';
 AllCrossStatsNames{22,1} = 'split empty DBD > +;tshGal80;shR(5) (tsh screen), dark';
+AllCrossStatsNames{23,1} = 'split empty DBD > +;dTRPA1(5);dTRPA1(5)';
 
 % All first round screen silencing
 AllCrossStatsNames{1,2} = 'split T2a > shts (2&3)';
@@ -124,7 +125,7 @@ AllCrossStatsNames{41,3} = 'Eye Movements 2 > IsoD1';
 
 % Extra experiments from hits:
 % T4+T5
-AllCrossStatsNames{3,4} = 'split T4+T5 > 2nd screen UAS';
+AllCrossStatsNames{3,4} = 'split T4+T5 > +;dTRPA1(5);dTRPA1(5)';
 AllCrossStatsNames{3,5} = 'split T4+T5 > IsoD1 (2nd screen)';
 AllCrossStatsNames{3,6} = 'split T4+T5 > 2nd screen UAS, dark';
 AllCrossStatsNames{3,7} = 'split T4+T5 > +;tshGal80;shR(5)';
@@ -136,7 +137,7 @@ AllCrossStatsNames{3,12} = 'split T4+T5 > shts (2&3), top lit';
 AllCrossStatsNames{3,13} = 'split T4+T5 > TNT (2)';
 
 % C3
-AllCrossStatsNames{5,4} = 'split C3 > 2nd screen UAS';
+AllCrossStatsNames{5,4} = 'split C3 > +;dTRPA1(5);dTRPA1(5)';
 AllCrossStatsNames{5,5} = 'split C3 > IsoD1 (2nd screen)';
 AllCrossStatsNames{5,6} = 'split C3 > 2nd screen UAS, dark';
 AllCrossStatsNames{5,7} = 'split C3 > +;tshGal80;shR(5)';
@@ -162,6 +163,9 @@ AllCrossStatsNames{27,5} = 'split LC14b > IsoD1 (2nd screen)';
 AllCrossStatsNames{27,6} = 'split LC14b > 2nd screen UAS, dark';
 AllCrossStatsNames{27,7} = 'split LC14b > +;tshGal80;shR(5)';
 AllCrossStatsNames{27,8} = 'split LC14b > IsoD1 (tsh ctrl)';
+
+% LC15
+AllCrossStatsNames{28,4} = 'split LC15 > +;dTRPA1(5);dTRPA1(5)';
 
 % LC25
 AllCrossStatsNames{38,4} = 'split LC25 > 2nd screen UAS';
