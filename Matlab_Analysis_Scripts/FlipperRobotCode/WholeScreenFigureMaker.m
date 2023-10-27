@@ -32,7 +32,7 @@ p_of_curve_diff_from_empty_over_shts_vec_up = ones((max(size(AllCrossStats))),1)
 p_of_curve_diff_from_gal4_over_plus_vec_up = ones((max(size(AllCrossStats))),1);
 
 % Allows user to choose which genotypes to plot and in what order
-genotypeCounterVec = [1:3,5,12:18,6:11,19:41];
+genotypeCounterVec = [1:3,5,12:18,42,7:11,19:41];
 
 % Go through each individual genotype now and grab the data and perform
 % statistical tests

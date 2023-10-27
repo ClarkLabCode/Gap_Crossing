@@ -8,8 +8,8 @@
 %  cell arrays.
 
 % Choose ranges of colNum and rowNum that you want to fill
-for colNum = [1]
-    for rowNum = [23]
+for colNum = [2,3]
+    for rowNum = [42]
         % Skip all entries that don't have an associated AllCrossStatsName
         if isempty(AllCrossStatsNames{rowNum,colNum})
             pause(1); % Put in a pause to give users chance to abort

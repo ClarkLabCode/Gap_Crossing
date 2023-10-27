@@ -138,8 +138,8 @@ indPosPrime(RunExcVec) = [];
 % Check that indPosPrime is indeed fixed
 diffOfIndPosPrime = diff(indPosPrime);
 diffOfIndPosPrimeWithinExpectedRange = ...
-(diffOfIndPosPrime < numFramesForFlipTime+15)&(diffOfIndPosPrime > numFramesForFlipTime-10)|...
-(diffOfIndPosPrime < numFramesWithinFlip+10)&(diffOfIndPosPrime > numFramesWithinFlip-15);
+    (diffOfIndPosPrime < numFramesForFlipTime+15)&(diffOfIndPosPrime > numFramesForFlipTime-15)|...
+    (diffOfIndPosPrime < numFramesWithinFlip+15)&(diffOfIndPosPrime > numFramesWithinFlip-15);
 % The first and last entries are always going to be 0 but aren't problems,
 % so just set them to 1
 diffOfIndPosPrimeWithinExpectedRange(1) = 1;
