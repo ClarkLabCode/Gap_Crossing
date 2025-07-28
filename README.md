@@ -15,5 +15,9 @@ The `Matlab_Analysis_Scripts` directory contains all the scripts and functions t
 
 The `Imaging_Analysis_Scripts` directory contains all the scripts and functions that are used for the analysis of the associated neural imaging data.
 
-The `Figure_Generation_Scripts` directory contains all the scripts and functions that are used to generate the processed data that is then edited in Adobe Illustrator to produce the final figure panels shown within the manuscript.
+The `Figure_Generation_Scripts` directory contains all the scripts and functions that are used to generate the processed data that is then edited in Adobe Illustrator to produce the final figure panels shown within the manuscript. It contains multiple sub-directories corresponding to the figures in the manuscript.
+ - The sub-directories follow the naming convention of `[DataType]_Fig_[AssociatedFig#]`
+  - `DataType` is one of {`Behav`, `Imaging`, `Simulation`}
+  - `AssociatedFig#` is the number of the main and supplemental figures in the manuscript for which the data corresponds
+
 
