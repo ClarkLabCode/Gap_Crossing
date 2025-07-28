@@ -4,9 +4,16 @@ This repository corresponds to all analyses done in the manuscript "Visual circu
 # General repository structure
 **This GitHub repository is intended to be cloned as-is in order for the individual analysis scripts to operate as expected.**
 
+The `Data` directory represents the location in which the analysis code expects the downloaded data (available **[[DANDI + Dryad links]](url)**) to be saved.
+
 The `Values_Needed_For_All_Experiments` directory contains all underlying non-data files necessary to run all of the analysis code, including the trained image classifier network used for extracting locomotor data from raw videos.
 
 The `Matlab_Analysis_Scripts` directory contains all the scripts and functions that are used for the primary behavioral data analysis pipeline. It contains two sub-directories: `FlipperRobotCode` and `NN_Code`.
  - `FlipperRobotCode`: Contains all of the scripts and functions associated with the processing of locomotor data in the experiments
    -  The main wrapper function that calls all necessary sub-functions and scripts is `FullGapCrossingAnalysis.m`
  -  `NN_Code`: Contains all of the scripts and functions associated with the training, validation, and usage of the image classifier network for classifying distinct fly behaviors within behavioral experiments.
+
+The `Imaging_Analysis_Scripts` directory contains all the scripts and functions that are used for the analysis of the associated neural imaging data.
+
+The `Figure_Generation_Scripts` directory contains all the scripts and functions that are used to generate the processed data that is then edited in Adobe Illustrator to produce the final figure panels shown within the manuscript.
+
