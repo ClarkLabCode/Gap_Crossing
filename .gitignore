@@ -5,3 +5,6 @@
 *.fig
 *.asv
 *.avi
+*.svg
+*.ai
+*.csv
