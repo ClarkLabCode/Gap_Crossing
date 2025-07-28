@@ -32,7 +32,12 @@ p_of_curve_diff_from_empty_over_shts_vec_up = ones((max(size(AllCrossStats))),1)
 p_of_curve_diff_from_gal4_over_plus_vec_up = ones((max(size(AllCrossStats))),1);
 
 % Allows user to choose which genotypes to plot and in what order
-genotypeCounterVec = [1:3,5,12:18,42,7:11,19:41];
+% genotypeCounterVec = [1:3,5,12:18,42,7:11,19:41];
+genotypeCounterVec = [5,1:3,40,41,12:15,17,16,18,42,7:11,19:39];
+
+% Number of rows and columns in the tiled layout
+numTilesRows = 8;
+numTilesCols = 5;
 
 % Go through each individual genotype now and grab the data and perform
 % statistical tests
@@ -75,7 +80,7 @@ for genotypeCounter = 1:(size(genotypeCounterVec,2))
     
     % Initialize a vector that holds the z scores of comparing the silenced
     % experiment to the synthetic control point-by-point
-    z_of_points_to_synth_up = zeros(4,1);
+    p_of_points_to_synth_up = zeros(4,1);
 
     % Go through each gap now and perform the statistical tests
     for gapSize = 1:4
@@ -88,13 +93,13 @@ for genotypeCounter = 1:(size(genotypeCounterVec,2))
             ranksum(AllCrossStats{genotype,2}.AllUpVecProperCrossOverAllGapEventRate(:,gapSize),...
                     AllCrossStats{genotype,3}.AllUpVecProperCrossOverAllGapEventRate(:,gapSize));
         % z test when comparing to synthetic control
-        z_of_points_to_synth_up(gapSize) = ...
-            (mean(AllCrossStats{genotype,2}.AllUpVecProperCrossOverAllGapEventRate(:,gapSize)) - ...
-             synth_mean(gapSize))./synth_sem(gapSize);
+        p_of_points_to_synth_up(gapSize) = ...
+            bootstrap_compare(AllCrossStats{controlGenotype,1}.AllUpVecProperCrossOverAllGapEventRate(:,gapSize),...
+                              AllCrossStats{genotype,3}.AllUpVecProperCrossOverAllGapEventRate(:,gapSize),...
+                              AllCrossStats{1,1}.AllUpVecProperCrossOverAllGapEventRate(:,gapSize),...
+                              AllCrossStats{genotype,2}.AllUpVecProperCrossOverAllGapEventRate(:,gapSize),...
+                              10000);
     end
-    
-    % Convert the z score to a p value for the comparison to synthetic control
-    p_of_points_to_synth_up = 2*(1-normcdf(abs(z_of_points_to_synth_up)));
 
     % Now fill in the appropriate entries in the vectors that hold all 
     % p values for all of the different genotypes
@@ -301,11 +306,12 @@ for genotypeCounter = 1:(size(genotypeCounterVec,2))
     if genotypeCounter == 1
         whichControlsToPlot = questdlg('What control curve(s) would you like plotted?', ...
 	        'Choice of plotted control(s)', ...
-	        'Most conservative','Synthetic','Both genetic lines','Most conservative');
+	        'Most conservative','Synthetic','All','All');
 
         % Create 8x5 tiled layout to hold each curve
         figure
-        TL = tiledlayout(8,5);
+        % TL = tiledlayout(8,5);
+        TL = tiledlayout(numTilesRows,numTilesCols);
     end
 
     % Move forward in the tiled layout
@@ -338,33 +344,42 @@ for genotypeCounter = 1:(size(genotypeCounterVec,2))
             % control as the control (because the statistical significance rules  
             % out a dominant/recessive inheritance hypothesis, so parental controls 
             % are not the appropriate control to show)
+
             hold on
             if any((5*(genotype-1)+1:5*genotype)==(p_values_most_conservative_comps_scaled<0.05).*p_values_most_conservative_comps_vec_sorted_ind,'all')
-                shadedErrorBar(1:0.5:2.5,...
+                errorbar(1:0.5:2.5,...
                      synth_mean,...
                      synth_sem,...
-                     'lineprops', {'Color','k','Marker','none'});
+                     'k','CapSize',0,'LineWidth',3,'Marker','o','MarkerSize',3,'MarkerFaceColor','auto','LineStyle','none');
+                plot(1:0.5:2.5,...
+                        synth_mean,'k')
             % If the silencing experiment was most conservatively compared to the
             % synthetic control, plot synthetic control as the control
             elseif column_of_largest_p(5*genotype) == 1
-                shadedErrorBar(1:0.5:2.5,...
+                errorbar(1:0.5:2.5,...
                      synth_mean,...
                      synth_sem,...
-                     'lineprops', {'Color','k','Marker','none'});
+                     'k','CapSize',0,'LineWidth',3,'Marker','o','MarkerSize',3,'MarkerFaceColor','auto','LineStyle','none');
+                plot(1:0.5:2.5,...
+                        synth_mean,'k')
             % If the silencing experiment was most conservatively compared to the
             % sp empty (DBD) > shts control, plot sp empty (DBD) > shts as the control
             elseif column_of_largest_p(5*genotype) == 2
-                shadedErrorBar(1:0.5:2.5,...
+                errorbar(1:0.5:2.5,...
                      mean(AllCrossStats{controlGenotype,1}.AllUpVecProperCrossOverAllGapEventRate),...
                      AllCrossStats{controlGenotype,1}.AllUpVecProperCrossOverAllGapEventStd,...
-                     'lineprops', {'Color','k','Marker','none'});
+                     'k','CapSize',0,'LineWidth',3,'Marker','o','MarkerSize',3,'MarkerFaceColor','auto','LineStyle','none');
+                plot(1:0.5:2.5,...
+                        mean(AllCrossStats{controlGenotype,1}.AllUpVecProperCrossOverAllGapEventRate),'k')
             % If the silencing experiment was most conservatively compared to the
             % Gal4 > + control, plot Gal4 > + as the control
             elseif column_of_largest_p(5*genotype) == 3
-                shadedErrorBar(1:0.5:2.5,...
+                errorbar(1:0.5:2.5,...
                      mean(AllCrossStats{genotype,3}.AllUpVecProperCrossOverAllGapEventRate),...
                      AllCrossStats{genotype,3}.AllUpVecProperCrossOverAllGapEventStd,...
-                     'lineprops', {'Color','k','Marker','none'});
+                     'k','CapSize',0,'LineWidth',3,'Marker','o','MarkerSize',3,'MarkerFaceColor','auto','LineStyle','none');
+                plot(1:0.5:2.5,...
+                        mean(AllCrossStats{genotype,3}.AllUpVecProperCrossOverAllGapEventRate),'k')
             end
 
         % If synthetic chosen, then plot the synth curve and legend
@@ -387,13 +402,15 @@ for genotypeCounter = 1:(size(genotypeCounterVec,2))
 
             % Synthetic control
             hold on
-            shadedErrorBar(1:0.5:2.5,...
-                synth_mean,...
-                synth_sem,...
-                'lineprops', {'Color','k','Marker','none'});
+            errorbar(1:0.5:2.5,...
+                     synth_mean,...
+                     synth_sem,...
+                     'k','CapSize',0,'LineWidth',3,'Marker','o','MarkerSize',3,'MarkerFaceColor','auto','LineStyle','none');
+            plot(1:0.5:2.5,...
+                     synth_mean,'k')
 
         % If both genetic lines chosen, then plot both and legend
-        case 'Both genetic lines'
+        case 'All'
 
             % To get a global legend for the tiled layout, plot an invisible set of
             % curves that correspond to the correct color scheme of the curves 
@@ -405,9 +422,12 @@ for genotypeCounter = 1:(size(genotypeCounterVec,2))
                     plot(1,nan(1,1),'Color',[.7 .7 .7],'Marker','none','LineWidth',5);
                 h3 = ...
                     plot(1,nan(1,1),'Color','k','Marker','none','LineWidth',5);
-                lg  = legend([h1 h2 h3],{'[Neuron] > +;sh^{ts};shR', ...
+                h4 = ...
+                    plot(1,nan(1,1),'k--','Marker','none','LineWidth',5);
+                lg  = legend([h1 h2 h3 h4],{'[Neuron] > +;sh^{ts};shR', ...
                              '[Neuron] > +;+;+',...
-                             'split empty (DBD) > +;sh^{ts};shR'},'AutoUpdate','off'); 
+                             'split empty (DBD) > +;sh^{ts};shR',...
+                             'synthetic control'},'AutoUpdate','off'); 
                 lg.FontSize = 10;
                         lg.Layout.Tile = 'North'; % <-- Legend placement with tiled layout
                         lg.Orientation = 'horizontal';
@@ -416,29 +436,52 @@ for genotypeCounter = 1:(size(genotypeCounterVec,2))
 
             % Gal4 > + control (gray)
             hold on
-            shadedErrorBar(1:0.5:2.5,...
-                 mean(AllCrossStats{genotype,3}.AllUpVecProperCrossOverAllGapEventRate),...
-                 AllCrossStats{genotype,3}.AllUpVecProperCrossOverAllGapEventStd,...
-                 'lineprops', {'Color',[.7 .7 .7],'Marker','none'});
-            % sp empty (DBD) > shts control (black)
-            shadedErrorBar(1:0.5:2.5,...
-                mean(AllCrossStats{controlGenotype,1}.AllUpVecProperCrossOverAllGapEventRate),...
-                AllCrossStats{controlGenotype,1}.AllUpVecProperCrossOverAllGapEventStd,...
-                'lineprops', {'Color','k','Marker','none'});
+            errorbar(1:0.5:2.5,...
+                     mean(AllCrossStats{genotype,3}.AllUpVecProperCrossOverAllGapEventRate),...
+                     AllCrossStats{genotype,3}.AllUpVecProperCrossOverAllGapEventStd,...
+                     'Color',[.7 .7 .7],'CapSize',0,'LineWidth',3,'Marker','o','MarkerSize',3,'MarkerFaceColor','auto','LineStyle','none');
+            plot(1:0.5:2.5,...
+                     mean(AllCrossStats{genotype,3}.AllUpVecProperCrossOverAllGapEventRate),'Color',[.7 .7 .7])
+            % sp empty (DBD) > shts control (solid black)
+            errorbar(1:0.5:2.5,...
+                     mean(AllCrossStats{controlGenotype,1}.AllUpVecProperCrossOverAllGapEventRate),...
+                     AllCrossStats{controlGenotype,1}.AllUpVecProperCrossOverAllGapEventStd,...
+                     'k','CapSize',0,'LineWidth',3,'Marker','o','MarkerSize',3,'MarkerFaceColor','auto','LineStyle','none');
+            plot(1:0.5:2.5,...
+                     mean(AllCrossStats{controlGenotype,1}.AllUpVecProperCrossOverAllGapEventRate),'k')
+            % Synthetic control (dashed black)
+            errorbar(1:0.5:2.5,...
+                     synth_mean,...
+                     synth_sem,...
+                     'k','CapSize',0,'LineWidth',3,'Marker','o','MarkerSize',3,'MarkerFaceColor','auto','LineStyle','none');
+            plot(1:0.5:2.5,...
+                     synth_mean,'k--')
     end
 
     % Plot the silencing experiment in red on the same plot as control(s)
-    shadedErrorBar(1:0.5:2.5,...
-         mean(AllCrossStats{genotype,2}.AllUpVecProperCrossOverAllGapEventRate),...
-         AllCrossStats{genotype,2}.AllUpVecProperCrossOverAllGapEventStd,...
-         'lineprops', {'Color','r','Marker','none'});
+    errorbar(1:0.5:2.5,...
+             mean(AllCrossStats{genotype,2}.AllUpVecProperCrossOverAllGapEventRate),...
+             AllCrossStats{genotype,2}.AllUpVecProperCrossOverAllGapEventStd,...
+             'r','CapSize',0,'LineWidth',3,'Marker','o','MarkerSize',3,'MarkerFaceColor','auto','LineStyle','none');
+    plot(1:0.5:2.5,...
+             mean(AllCrossStats{genotype,2}.AllUpVecProperCrossOverAllGapEventRate),'r')
     hold off
 
     % Just adjust the axes and add the appropriate title now for each tile
+    % genotypeCounter
     ylim([0,1]);
     xlim([0.8,2.7]);
-    xticks(1:0.5:2.5);
-    title(AllCrossStatsNames{genotype,2}(1:(strfind(AllCrossStatsNames{genotype,2}, '>')-2)));
+    if genotypeCounter > (numTilesRows-1)*numTilesCols
+        xticks(1:0.5:2.5);
+    else
+        xticks([]);
+    end
+    if mod(genotypeCounter,numTilesCols) == 1
+        yticks([0,1]);
+    else
+        yticks([]);
+    end
+    title(erase(AllCrossStatsNames{genotype,2}(1:(strfind(AllCrossStatsNames{genotype,2}, '>')-2)),'split '));
 
 end
 
@@ -459,4 +502,64 @@ for i = find(rej_null_hyp)'
     disp([p_values_most_conservative_comps_sorted_names{i}]);
 end
 
-set(gcf, 'Position',  [0, 0, 0.8*800, 0.8*800])
+function p_value = bootstrap_compare(A, B, C, D, n_boot)
+% BOOTSTRAP_COMPARE - Compute non-parametric p-value comparing population D
+% against the derived distribution A + B - C using bootstrap resampling.
+%
+% Usage:
+%   p = bootstrap_compare(A, B, C, D, 10000)
+%
+% Inputs:
+%   A, B, C, D  - Vectors of observations for each population (values between 0 and 1)
+%   n_boot      - Number of bootstrap samples (e.g. 10000)
+%
+% Output:
+%   p_value     - Two-tailed bootstrap p-value
+
+    % Set default if not provided
+    if nargin < 5
+        n_boot = 10000;
+    end
+
+    % Bootstrap means
+    A_boot = bootstrap_means(A, n_boot);
+    B_boot = bootstrap_means(B, n_boot);
+    C_boot = bootstrap_means(C, n_boot);
+    D_boot = bootstrap_means(D, n_boot);
+
+    % Derived null distribution
+    combined_boot = A_boot + B_boot - C_boot;
+
+    % Observed D mean
+    mean_D_obs = mean(D);
+
+    % Center of the null distribution
+    null_mean = mean(combined_boot);
+
+    % Compute two-tailed p-value
+    deviation = abs(mean_D_obs - null_mean);
+    p_value = mean(abs(combined_boot - null_mean) >= deviation);
+
+    % % Optional: plot distributions
+    % figure;
+    % hold on;
+    % histogram(combined_boot, 'Normalization', 'pdf', 'DisplayName', 'A + B - C', 'FaceAlpha', 0.5);
+    % xline(mean_D_obs, 'r--', 'LineWidth', 2, 'DisplayName', 'Mean of D');
+    % xline(null_mean, 'k:', 'LineWidth', 2, 'DisplayName', 'Mean of A+B-C');
+    % title(['Bootstrap Comparison (p = ', num2str(p_value, '%.4f'), ')']);
+    % legend show;
+    % xlabel('Bootstrapped Mean');
+    % ylabel('Density');
+    % hold off;
+end
+
+function boot_means = bootstrap_means(data, n_boot)
+% BOOTSTRAP_MEANS - Resample the mean from data n_boot times
+
+    n = numel(data);
+    boot_means = zeros(n_boot, 1);
+    for i = 1:n_boot
+        resample = data(randi(n, n, 1));
+        boot_means(i) = mean(resample);
+    end
+end

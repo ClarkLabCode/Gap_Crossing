@@ -12,8 +12,8 @@
 %  from three probabilities to just one label (glass or proper crossing).
 %  However, it is useful to break up the two steps in order to allow users
 %  to experiment with different classification thresholds (as was done to
-%  generate the ROC curve). The default threshold is 0.5. Further info can
-%  be found in the ClassifyOnOff function regarding this threshold.
+%  generate the ROC). The default threshold is 0.5. Further info can be
+%  found in the ClassifyOnOff function regarding this threshold.
 
 function WS = PredictOnOffGlass(WS)
 
@@ -32,6 +32,12 @@ netOnOffAmbig = WS.netOnOffAmbig;
 
 % Mean pixel value to normalize each frame to have
 avgPixVal = 0.9;
+
+% If inputFileName was saved with an absolute path for some reason, fix it
+locOfAbsPathInStr = strfind(inputFileName,'All_Raw_Videos\');
+if ~isempty(locOfAbsPathInStr)
+    inputFileName = inputFileName(locOfAbsPathInStr+15:end);
+end
 
 % Initialize the video reader object to read in clips
 reader1 = VideoReader(['..\0_Raw_Videos\',inputFileName]);
@@ -430,5 +436,6 @@ end
 
 % Update the fields in WS
 WS.FlipBinnedFlyStruct = FBFS;
+WS.inputFileName = inputFileName;
 
 end

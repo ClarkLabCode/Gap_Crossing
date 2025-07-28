@@ -192,5 +192,6 @@ WS.indPos               = indPos;
 WS.frameMarkerVec       = frameMarkerVec;
 WS.changeVecDil         = changeVecDil;
 WS.dotProdVec           = dotProdVec;
+WS.resolution           = resolution;
 
 end
