@@ -20,4 +20,8 @@ The `Figure_Generation_Scripts` directory contains all the scripts and functions
   - `DataType` is one of {`Behav`, `Imaging`, `Simulation`}
   - `AssociatedFig#` is the number of the main and supplemental figures in the manuscript for which the data corresponds
 
+# Gap crossing compartment diagram
 
+Below is the diagram showing what parts of the gap crossing cassette corresponds to the various labels found within the documentation of the analysis code.
+
+<img width="1085" height="2155" alt="readme graphic" src="https://github.com/user-attachments/assets/4e82bbd5-707f-41f3-b94d-e3ff99efc4bc" />
