@@ -24,4 +24,4 @@ The `Figure_Generation_Scripts` directory contains all the scripts and functions
 
 Below is the diagram showing what parts of the gap crossing cassette corresponds to the various labels found within the documentation of the analysis code.
 
-<img width="1085" height="2155" alt="readme graphic" src="https://github.com/user-attachments/assets/4e82bbd5-707f-41f3-b94d-e3ff99efc4bc" />
+<img width="1085" height="2155" alt="readme graphic" src="https://github.com/user-attachments/assets/55f991bd-bc98-42cf-a136-09792e0fdfdc" />
