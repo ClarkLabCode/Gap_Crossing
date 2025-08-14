@@ -1,10 +1,10 @@
 # About
-This repository corresponds to all analyses done in the manuscript "Visual circuitry for distance estimation in _Drosophila_" in _Current Biology_. The pre-print associated with the manuscript can be found [here](https://www.biorxiv.org/content/10.1101/2024.12.25.630346v1) on bioRxiv. In this publication, neural circuits associated with distance estimation are identified and characterized in the _Drosophila_ visual system. All the code used to analyze data from the behavioral screen and the neural imaging experiments is included in this repository. The data is made available at **[[DANDI + Dryad links]](url)**.
+This repository corresponds to all analyses done in the manuscript "Visual circuitry for distance estimation in _Drosophila_" in _Current Biology_. The pre-print associated with the manuscript can be found [here](https://www.biorxiv.org/content/10.1101/2024.12.25.630346v1) on bioRxiv. In this publication, neural circuits associated with distance estimation are identified and characterized in the _Drosophila_ visual system. All the code used to analyze data from the behavioral screen and the neural imaging experiments is included in this repository. The data is made available at **[[Dryad link]](url)**.
 
 # General repository structure
 **This GitHub repository is intended to be cloned as-is in order for the individual analysis scripts to operate as expected.**
 
-The `Data` directory represents the location in which the analysis code expects the downloaded data (available **[[DANDI + Dryad links]](url)**) to be saved.
+The `Data` directory represents the location in which the analysis code expects the downloaded data (available **[[Dryad link]](url)**) to be saved.
 
 The `Values_Needed_For_All_Experiments` directory contains all underlying non-data files necessary to run all of the analysis code, including the trained image classifier network used for extracting locomotor data from raw videos.
 
