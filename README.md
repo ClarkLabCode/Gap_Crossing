@@ -22,6 +22,15 @@ The `Figure_Generation_Scripts` directory contains all the scripts and functions
 
 # Gap crossing compartment diagram
 
-Below is the diagram showing what parts of the gap crossing cassette corresponds to the various labels found within the documentation of the analysis code.
+Below is the diagram showing what parts of the gap crossing cassette corresponds to the various labels found within the documentation of the analysis code. When the flipper robot moves the cassette to the other orientation (labeled "orientation 2" or "even flips"), the compartment labels are flipped (such that 1 is at the top and 9 is at the bottom).
 
-<img width="1085" height="2155" alt="readme graphic" src="https://github.com/user-attachments/assets/55f991bd-bc98-42cf-a136-09792e0fdfdc" />
+<img width="217" height="431" alt="readme graphic" src="https://github.com/user-attachments/assets/55f991bd-bc98-42cf-a136-09792e0fdfdc" />
+
+Below is a table that provides the mapping between the compartment transitions and their correspodning labeled fly behaviors.
+
+| | Crossing / Glass Circum. | Gap Circum. | Retreat |
+|---|---|---|---|
+|1 mm | 1 -> 2 -> 3 OR 3 -> 2 -> 1 | 1 -> 2 -> 10 OR 3 -> 2 -> 10 | 1 -> 2 -> 1 OR 3 -> 2 -> 3 |
+|1.5 mm | 3 -> 4 -> 5 OR 5 -> 4 -> 3 | 3 -> 4 -> 11 OR 5 -> 4 -> 11 | 3 -> 4 -> 3 OR 5 -> 4 -> 5 |
+|2 mm | 5 -> 6 -> 7 OR 7 -> 6 -> 5 | 5 -> 6 -> 12 OR 7 -> 6 -> 12 | 5 -> 6 -> 5 OR 7 -> 6 -> 7 |
+|2.5 mm | 7 -> 8 -> 9 OR 9 -> 8 -> 7 | 7 -> 8 -> 13 OR 9 -> 8 -> 13 | 7 -> 8 -> 7 OR 9 -> 8 -> 9 |
